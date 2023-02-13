@@ -4,7 +4,7 @@ import {registerRootComponent} from 'expo';
 import {createStore, applyMiddleware} from 'redux';
 import {logger} from 'redux-logger';
 import {Provider} from 'react-redux';
-import Reducers from './reducers/';
+import Reducers from './app/reducers/';
 import LoginForm from './components/LoginForm';
 
 class App extends Component {
@@ -12,7 +12,8 @@ class App extends Component {
     return (
       <Provider store={createStore(Reducers, applyMiddleware(logger))}>
         <View>
-          <LoginForm />
+          {/* <LoginForm /> */}
+          <h1>hello</h1>
         </View>
       </Provider>
     );

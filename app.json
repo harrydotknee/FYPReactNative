@@ -2,6 +2,6 @@
   "name": "FYPReactNative",
   "displayName": "FYPReactNative",
   "expo": {
-    "entryPoint": "./src/App.js"
+    "entryPoint": "./index.js"
   }
 }
