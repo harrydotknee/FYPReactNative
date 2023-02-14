@@ -26,37 +26,6 @@ const LoginForm = ({navigation}) => {
   const [message, setMessage] = useState('');
   const [isLogin, setIsLogin] = useState(true);
 
-  const onLoggedIn = (token, client, uid) => {
-    console.log("here2");
-    const credentials = {
-      'access-token': token,
-      'client': client,
-      'uid': uid,
-    };
-    fetch(`${API_URL}/workouts?` + new URLSearchParams(credentials), {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(async res => {
-        try {
-          console.log(`${API_URL}/workouts?`);
-          const jsonRes = await res.json();
-          console.log(jsonRes);
-          if (res.status === 200) {
-            setMessage(jsonRes.name);
-            navigation.navigate('Workouts');
-          }
-        } catch (err) {
-          console.log(err);
-        };
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
   const onSubmitHandler = () => {
     const user = {
       email,
@@ -81,43 +50,28 @@ const LoginForm = ({navigation}) => {
         if (res.status !== 200) {
           setIsError(true);
         } else {
-          console.log("here");
-          onLoggedIn(accessToken, client, uid);
+          const credentials = {
+            'access-token': accessToken,
+            'client': client,
+            'uid': uid,
+          };
+          navigation.replace('Workouts', {
+            accessToken: accessToken,
+            client: client,
+            uid: uid,
+          });
           setIsError(false);
         }
       } catch (err) {
         console.log(err);
       }
     });
-
-    // console.log('Submitted: ', `${props.email} ${props.password}`);
-    // const {email, password} = props;
-    // props.loginUser({email, password});
   };
-
-  const getMessage = () => {
-    const status = isError ? `Error: ` : `Success: `;
-    return status + message;
-  };
-
-  // const renderError = () => {
-  //   if (props.error) {
-  //     return <Text>Authentication Failed</Text>;
-  //   }
-  //   return null;
-  // };
-
-  // const renderButton = () => {
-  //   if (props.spinner) {
-  //     return <ActivityIndicator size="large" />;
-  //   }
-  //   return <Button title="Login" onPress={onButtonSubmit} />;
-  // };
 
   return (
     <View style={styles.viewStyle}>
       <Hoshi
-        label={'Username'}
+        label={'Email'}
         // this is used as active border color
         borderColor={'#b76c94'}
         // this is used to set backgroundColor of label mask.
@@ -140,7 +94,6 @@ const LoginForm = ({navigation}) => {
         onPress={onSubmitHandler}
         title="Login"
       />
-      <Text>{message ? getMessage() : null}</Text>
     </View>
   );
 };
@@ -151,11 +104,5 @@ const styles = {
     padding: 10,
   },
 };
-
-// const mapStateToProps = state => {
-//   return {
-//     email: state.auth.email,
-//   };
-// };
 
 export default LoginForm;
