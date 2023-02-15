@@ -18,7 +18,7 @@ export const loginUser = ({email, password}) => {
     dispatch({
       type: 'LOAD_SPINNER',
     });
-    fetch('53ed-81-106-97-58.eu.ngrok.io/users/sign_in', {
+    fetch('https://12dd-85-255-232-125.eu.ngrok.io/users/sign_in', {
       method: 'POST',
       headers: {
         Accept: 'application/json',

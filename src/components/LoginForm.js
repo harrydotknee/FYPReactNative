@@ -15,7 +15,7 @@ import {applyMiddleware, combineReducers, createStore} from 'redux';
 //   loginUser,
 // } from '../app/actions/loginActions';
 
-const API_URL = 'https://1468-148-252-133-113.eu.ngrok.io';
+const API_URL = 'https://12dd-85-255-232-125.eu.ngrok.io';
 
 const LoginForm = ({navigation}) => {
   const [email, setEmail] = useState('');

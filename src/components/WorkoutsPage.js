@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
 
-const API_URL = 'https://1468-148-252-133-113.eu.ngrok.io';
+const API_URL = 'https://12dd-85-255-232-125.eu.ngrok.io';
 
 const WorkoutsPage = ({route, navigation}) => {
   // const [workoutData, setWorkoutData] = useState([]);
