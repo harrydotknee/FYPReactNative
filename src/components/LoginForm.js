@@ -27,9 +27,13 @@ const LoginForm = ({navigation}) => {
   const [isLogin, setIsLogin] = useState(true);
 
   const onSubmitHandler = () => {
+    // const user = {
+    //   email,
+    //   password,
+    // };
     const user = {
-      email,
-      password,
+      'email': 'bob@example.com',
+      'password': 'password',
     };
     fetch(`${API_URL}/auth/sign_in`, {
       method: 'POST',

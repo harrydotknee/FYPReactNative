@@ -1,57 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
+import {List, Button} from 'react-native-paper';
 
 const API_URL = 'https://12dd-85-255-232-125.eu.ngrok.io';
 
 const WorkoutsPage = ({route, navigation}) => {
-  // const [workoutData, setWorkoutData] = useState([]);
-  // const workouts = async () => {
-  //   try {
-  //     const response = await fetch('https://53ed-81-106-97-58.eu.ngrok.io/workouts');
-  //     const data = await response.json();
-  //     setWorkoutData(data);
-  //     console.log("hello");
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  // useEffect(() => {
-  //   workouts();
-  // }, []);
-
-  // const onLoggedIn = (token, client, uid) => {
-  //   console.log("here2");
-  //   const credentials = {
-  //     'access-token': token,
-  //     'client': client,
-  //     'uid': uid,
-  //   };
-  //   fetch(`${API_URL}/workouts?` + new URLSearchParams(credentials), {
-  //     method: 'GET',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //   })
-  //     .then(async res => {
-  //       try {
-  //         console.log(`${API_URL}/workouts?`);
-  //         const jsonRes = await res.json();
-  //         console.log(jsonRes);
-  //         if (res.status === 200) {
-  //           setMessage(jsonRes.name);
-  //           navigation.replace('Workouts', {credentials: credentials});
-  //         }
-  //       } catch (err) {
-  //         console.log(err);
-  //       }
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     });
-  // };
-
   const {accessToken, client, uid} = route.params;
   const [workoutData, setWorkoutData] = useState([]);
+
   const workouts = async () => {
     const credentials = {
       'access-token': accessToken,
@@ -72,7 +28,8 @@ const WorkoutsPage = ({route, navigation}) => {
           console.log(jsonRes);
           let workoutList = [];
           for (let i = 0; i < jsonRes.length; i++) {
-            console.log(jsonRes.name);
+            const exercises = JSON.stringify(jsonRes[i].exercises);
+            console.log("exercises: " + exercises);
             workoutList.push(jsonRes[i].name);
           }
           setWorkoutData(workoutList);
@@ -88,8 +45,19 @@ const WorkoutsPage = ({route, navigation}) => {
 
   return (
     <View>
+      <Button mode="contained" onPress={() => navigation.navigate('EditWorkout')}>
+        Create Workout
+      </Button>
+
       {workoutData.map((workout, index) => (
-        <Text key={index}>{workout}</Text>
+        <List.Item
+          key={index}
+          title={workout}
+          left={props => (
+            <List.Icon {...props} icon="play" onPress={console.log("hi")} />
+          )}
+          onPress={() => navigation.navigate('EditWorkout', {workout: workout})}
+        />
       ))}
     </View>
   );
