@@ -2,20 +2,8 @@ import React, {useState} from 'react';
 import {Text, View, ActivityIndicator} from 'react-native';
 import {Button} from 'react-native-elements';
 import {Hoshi} from 'react-native-textinput-effects';
-// import Button from 'react-native-button';
-// import _ from 'lodash';
-import {Provider} from 'react-redux';
-import {applyMiddleware, combineReducers, createStore} from 'redux';
-// import thunk from 'redux-thunk';
-// import reducers from '../app/reducers';
-// import {connect} from 'react-redux';
-// import {
-//   emailChanged,
-//   passwordChanged,
-//   loginUser,
-// } from '../app/actions/loginActions';
 
-const API_URL = 'https://12dd-85-255-232-125.eu.ngrok.io';
+const API_URL = 'https://c661-185-69-144-206.eu.ngrok.io';
 
 const LoginForm = ({navigation}) => {
   const [email, setEmail] = useState('');

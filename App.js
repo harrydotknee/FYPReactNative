@@ -15,9 +15,11 @@ import {Provider as StoreProvider} from 'react-redux';
 import {Provider as PaperProvider} from 'react-native-paper';
 import {applyMiddleware, combineReducers, createStore} from 'redux';
 import reducers from './src/app/reducers';
-import LoginForm from './src/components/LoginForm';
-import WorkoutsPage from './src/components/WorkoutsPage';
-import EditWorkoutPage from './src/components/EditWorkoutPage';
+import LoginForm from './src/pages/LoginForm';
+import WorkoutsPage from './src/pages/WorkoutsPage';
+import EditWorkoutPage from './src/pages/EditWorkoutPage';
+import CreateWorkoutPage from './src/pages/CreateWorkoutPage';
+import ShowWorkoutPage from './src/pages/ShowWorkoutPage';
 
 const rootReducer = combineReducers({...reducers});
 const store = createStore(rootReducer, applyMiddleware(thunk));
@@ -33,6 +35,12 @@ const App = () => {
               <Stack.Screen name="Login" component={LoginForm} />
               <Stack.Screen name="Workouts" component={WorkoutsPage} />
               <Stack.Screen name="EditWorkout" component={EditWorkoutPage} />
+              <Stack.Screen name="ShowWorkout" component={ShowWorkoutPage} />
+
+              <Stack.Screen
+                name="CreateWorkout"
+                component={CreateWorkoutPage}
+              />
             </Stack.Navigator>
           </NavigationContainer>
         </PaperProvider>
