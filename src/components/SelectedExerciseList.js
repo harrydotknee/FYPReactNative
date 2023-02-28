@@ -1,5 +1,5 @@
 import React from 'react';
-import {List, Button, IconButton, Colors, useTheme } from 'react-native-paper';
+import {List, IconButton, useTheme } from 'react-native-paper';
 import {ScrollView, StyleSheet, View, TouchableOpacity} from 'react-native';
 
 const SelectedExerciseItem = ({exercise, index}) => {
@@ -24,11 +24,10 @@ const SelectedExerciseItem = ({exercise, index}) => {
 };
 
 const SelectedExerciseList = ({exercises}) => {
-  const theme = useTheme();
   return (
     <>
       <View style={styles.topRight}>
-        <ScrollView contentContainerStyle={{flex:1}} showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={true}>
           {exercises.map((exercise, index) => {
             return <SelectedExerciseItem exercise={exercise} key={index} />;
           })}
@@ -61,7 +60,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
     marginRight: 16,
-    width: 140,
+    width: 160,
     paddingRight: 0,
   },
   listItemIcon: {

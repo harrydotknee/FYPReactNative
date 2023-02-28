@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
 import {List, Button} from 'react-native-paper';
 
-const API_URL = 'https://c661-185-69-144-206.eu.ngrok.io';
+const API_URL = 'https://dca6-148-252-129-117.eu.ngrok.io';
 
 const WorkoutsPage = ({route, navigation}) => {
   const {accessToken, client, uid} = route.params;

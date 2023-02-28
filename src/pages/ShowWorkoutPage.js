@@ -12,7 +12,7 @@ const ShowWorkoutPage = ({route, navigation}) => {
         <Button
           mode="contained"
           onPress={() => {
-            navigation.navigate('EditWorkout', {workout: route.params.workout});
+            navigation.navigate('EditWorkout', {workout: route.params.workout, accessToken: route.params.accessToken, client: route.params.client, uid: route.params.uid});
           }}>
           Edit Workout
         </Button>

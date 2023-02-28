@@ -3,7 +3,7 @@ import {Text, View, ActivityIndicator} from 'react-native';
 import {Button} from 'react-native-elements';
 import {Hoshi} from 'react-native-textinput-effects';
 
-const API_URL = 'https://c661-185-69-144-206.eu.ngrok.io';
+const API_URL = 'https://dca6-148-252-129-117.eu.ngrok.io';
 
 const LoginForm = ({navigation}) => {
   const [email, setEmail] = useState('');
