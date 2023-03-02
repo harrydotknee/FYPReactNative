@@ -3,6 +3,7 @@ import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {TextInput, Button, List} from 'react-native-paper';
 import SelectedExerciseList from '../components/SelectedExerciseList';
 import ExerciseList from '../components/ExerciseList';
+import * as SecureStore from 'expo-secure-store';
 
 const API_URL = 'https://dca6-148-252-129-117.eu.ngrok.io';
 
@@ -13,13 +14,13 @@ const EditWorkoutPage = ({route, navigation}) => {
   const [selectedExercises, setSelectedExercises] = useState([]);
 
   const getExercises = async () => {
-    const {accessToken, client, uid} = route.params;
+    const getCredentials = await SecureStore.getItemAsync('credentials');
+    const credentialsObject = JSON.parse(getCredentials);
     const credentials = {
-      'access-token': accessToken,
-      'client': client,
-      'uid': uid,
+      'access-token': credentialsObject['access-token'],
+      'client': credentialsObject['client'],
+      'uid': credentialsObject['uid'],
     };
-    console.log('access token: ' + accessToken);
     fetch(`${API_URL}/exercises?` + new URLSearchParams(credentials), {
       method: 'GET',
       headers: {

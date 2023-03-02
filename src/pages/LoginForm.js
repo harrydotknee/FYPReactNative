@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Text, View, ActivityIndicator} from 'react-native';
 import {Button} from 'react-native-elements';
 import {Hoshi} from 'react-native-textinput-effects';
+import * as SecureStore from 'expo-secure-store';
 
 const API_URL = 'https://dca6-148-252-129-117.eu.ngrok.io';
 
@@ -47,6 +48,9 @@ const LoginForm = ({navigation}) => {
             'client': client,
             'uid': uid,
           };
+          await SecureStore.setItemAsync('credentials', JSON.stringify(credentials));
+          const theToken = await SecureStore.getItemAsync('credentials');
+          console.log('theToken: ' + theToken);
           navigation.replace('Workouts', {
             accessToken: accessToken,
             client: client,

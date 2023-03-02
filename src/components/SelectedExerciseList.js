@@ -1,5 +1,5 @@
 import React from 'react';
-import {List, IconButton, useTheme } from 'react-native-paper';
+import {List, IconButton, useTheme} from 'react-native-paper';
 import {ScrollView, StyleSheet, View, TouchableOpacity} from 'react-native';
 
 const SelectedExerciseItem = ({exercise, index, onPress}) => {
