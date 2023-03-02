@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
 import {List, Button, TextInput} from 'react-native-paper';
+import * as SecureStore from 'expo-secure-store';
 
 const API_URL = 'https://dca6-148-252-129-117.eu.ngrok.io';
 
@@ -8,16 +9,22 @@ const CreateWorkoutPage = ({route, navigation}) => {
   const [workoutName, setWorkoutName] = useState('');
   const [exercises, setExercises] = useState([]);
   const [selectedExercises, setSelectedExercises] = useState([]);
-  const {accessToken, client, uid} = route.params;
-  const credentials = {
-    'access-token': accessToken,
-    'client': client,
-    'uid': uid,
-  };
+  // const {accessToken, client, uid} = route.params;
+  // const credentials = {
+  //   'access-token': accessToken,
+  //   'client': client,
+  //   'uid': uid,
+  // };
 
   const createWorkout = async (name, passedExercises) => {
-    console.log('access token: ' + accessToken);
-    console.log('name: ' + name);
+    const getCredentials = await SecureStore.getItemAsync('credentials');
+    const credentialsObject = JSON.parse(getCredentials);
+    const credentials = {
+      'access-token': credentialsObject['access-token'],
+      'client': credentialsObject['client'],
+      'uid': credentialsObject['uid'],
+    };
+
     fetch(`${API_URL}/workouts?` + new URLSearchParams(credentials), {
       method: 'POST',
       headers: {
@@ -43,13 +50,19 @@ const CreateWorkoutPage = ({route, navigation}) => {
   };
 
   const getExercises = async () => {
-    const {accessToken, client, uid} = route.params;
+    // const {accessToken, client, uid} = route.params;
+    // const credentials = {
+    //   'access-token': accessToken,
+    //   'client': client,
+    //   'uid': uid,
+    // };
+    const getCredentials = await SecureStore.getItemAsync('credentials');
+    const credentialsObject = JSON.parse(getCredentials);
     const credentials = {
-      'access-token': accessToken,
-      'client': client,
-      'uid': uid,
+      'access-token': credentialsObject['access-token'],
+      'client': credentialsObject['client'],
+      'uid': credentialsObject['uid'],
     };
-    console.log('access token: ' + accessToken);
     fetch(`${API_URL}/exercises?` + new URLSearchParams(credentials), {
       method: 'GET',
       headers: {
@@ -100,11 +113,7 @@ const CreateWorkoutPage = ({route, navigation}) => {
           onPress={() => {
             console.log('workout name: ' + workoutName);
             createWorkout(workoutName, selectedExercises);
-            navigation.navigate('Workouts', {
-              accessToken: accessToken,
-              client: client,
-              uid: uid,
-            });
+            navigation.navigate('Workouts');
           }}>
           Create Workout
         </Button>

@@ -1,21 +1,23 @@
 import React, {useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
 import {List, Button} from 'react-native-paper';
+import * as SecureStore from 'expo-secure-store';
 
 const API_URL = 'https://dca6-148-252-129-117.eu.ngrok.io';
 
 const WorkoutsPage = ({route, navigation}) => {
-  const {accessToken, client, uid} = route.params;
+  // const {accessToken, client, uid} = route.params;
   const [workoutData, setWorkoutData] = useState([]);
 
   useEffect(() => {
     const fetchWorkouts = async () => {
+      const getCredentials = await SecureStore.getItemAsync('credentials');
+      const credentialsObject = JSON.parse(getCredentials);
       const credentials = {
-        'access-token': accessToken,
-        'client': client,
-        'uid': uid,
+        'access-token': credentialsObject['access-token'],
+        'client': credentialsObject['client'],
+        'uid': credentialsObject['uid'],
       };
-      console.log('access token: ' + accessToken);
       fetch(`${API_URL}/workouts?` + new URLSearchParams(credentials), {
         method: 'GET',
         headers: {
@@ -29,13 +31,12 @@ const WorkoutsPage = ({route, navigation}) => {
             console.log(jsonRes);
             let workoutList = [];
             for (let i = 0; i < jsonRes.length; i++) {
-              const exercises = JSON.stringify(jsonRes[i].exercises);
-              console.log("exercises: " + exercises);
               workoutList.push(jsonRes[i]);
             }
             setWorkoutData(workoutList);
           }
         } catch (err) {
+          console.log("HEREEE");
           console.log(err);
         }
       });
@@ -44,19 +45,13 @@ const WorkoutsPage = ({route, navigation}) => {
       fetchWorkouts();
     });
     return unsubscribe;
-  }, [navigation, accessToken, client, uid]);
+  }, []);
 
   return (
     <View>
       <Button
         mode="contained"
-        onPress={() =>
-          navigation.navigate('CreateWorkout', {
-            accessToken: accessToken,
-            client: client,
-            uid: uid,
-          })
-        }>
+        onPress={() => navigation.navigate('CreateWorkout')}>
         Create Workout
       </Button>
 
@@ -64,9 +59,7 @@ const WorkoutsPage = ({route, navigation}) => {
         <List.Item
           key={index}
           title={workout.name}
-          left={props => (
-            <List.Icon {...props} icon="play" onPress={console.log('hi')} />
-          )}
+          left={props => <List.Icon {...props} icon="play" />}
           onPress={() => navigation.navigate('ShowWorkout', {workout: workout})}
         />
       ))}
