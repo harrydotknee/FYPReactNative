@@ -2,20 +2,8 @@ import React, {useState} from 'react';
 import {Text, View, ActivityIndicator} from 'react-native';
 import {Button} from 'react-native-elements';
 import {Hoshi} from 'react-native-textinput-effects';
-// import Button from 'react-native-button';
-// import _ from 'lodash';
-import {Provider} from 'react-redux';
-import {applyMiddleware, combineReducers, createStore} from 'redux';
-// import thunk from 'redux-thunk';
-// import reducers from '../app/reducers';
-// import {connect} from 'react-redux';
-// import {
-//   emailChanged,
-//   passwordChanged,
-//   loginUser,
-// } from '../app/actions/loginActions';
 
-const API_URL = 'https://1468-148-252-133-113.eu.ngrok.io';
+const API_URL = 'https://dca6-148-252-129-117.eu.ngrok.io';
 
 const LoginForm = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -27,9 +15,13 @@ const LoginForm = ({navigation}) => {
   const [isLogin, setIsLogin] = useState(true);
 
   const onSubmitHandler = () => {
+    // const user = {
+    //   email,
+    //   password,
+    // };
     const user = {
-      email,
-      password,
+      'email': 'bob@example.com',
+      'password': 'password',
     };
     fetch(`${API_URL}/auth/sign_in`, {
       method: 'POST',
