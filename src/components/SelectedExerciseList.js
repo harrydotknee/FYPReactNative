@@ -2,7 +2,7 @@ import React from 'react';
 import {List, IconButton, useTheme } from 'react-native-paper';
 import {ScrollView, StyleSheet, View, TouchableOpacity} from 'react-native';
 
-const SelectedExerciseItem = ({exercise, index}) => {
+const SelectedExerciseItem = ({exercise, index, onPress}) => {
   const theme = useTheme();
   return (
     <>
@@ -14,8 +14,8 @@ const SelectedExerciseItem = ({exercise, index}) => {
           ...{backgroundColor: theme.colors.primaryContainer},
         }}
         right={() => (
-          <TouchableOpacity style={styles.button} onPress={() => console.log('Pressed')}>
-            <IconButton icon="close" size={20} style={styles.button}/>
+          <TouchableOpacity style={styles.button} onPress={onPress}>
+            <IconButton icon="close" size={20} style={styles.button} />
           </TouchableOpacity>
         )}
       />
@@ -36,6 +36,12 @@ const SelectedExerciseList = ({exercises}) => {
     </>
   );
 };
+
+// const handleRemoveExercise = index => {
+//   const newExercises = [...selectedExercises];
+//   newExercises.splice(index, 1);
+//   setSelectedExercises(newExercises);
+// };
 
 const styles = StyleSheet.create({
   container: {

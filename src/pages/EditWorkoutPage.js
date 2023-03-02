@@ -1,14 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import {TextInput, Button} from 'react-native-paper';
+import {TextInput, Button, List} from 'react-native-paper';
 import SelectedExerciseList from '../components/SelectedExerciseList';
 import ExerciseList from '../components/ExerciseList';
 
 const API_URL = 'https://dca6-148-252-129-117.eu.ngrok.io';
 
 const EditWorkoutPage = ({route, navigation}) => {
+  const [allExercises, setAllExercises] = useState([]);
   const [exercises, setExercises] = useState([]);
   const [workoutName, setWorkoutName] = useState(route.params.workout.name);
+  const [selectedExercises, setSelectedExercises] = useState([]);
 
   const getExercises = async () => {
     const {accessToken, client, uid} = route.params;
@@ -29,11 +31,7 @@ const EditWorkoutPage = ({route, navigation}) => {
         console.log(res.status);
         if (res.status === 200) {
           console.log(jsonRes);
-          let exerciseList = [];
-          for (let i = 0; i < jsonRes.length; i++) {
-            exerciseList.push(jsonRes[i]);
-          }
-          setExercises(exerciseList);
+          setAllExercises(jsonRes);
         }
       } catch (err) {
         console.log(err);
@@ -59,7 +57,16 @@ const EditWorkoutPage = ({route, navigation}) => {
         <SelectedExerciseList exercises={route.params.workout.exercises} />
       </View>
       <View style={styles.exerciseList}>
-        <ExerciseList exercises={exercises} />
+        {allExercises.map((exercise, index) => (
+          <List.Item
+            key={index}
+            title={exercise.name}
+            left={props => <List.Icon {...props} />}
+            onPress={() =>
+              setSelectedExercises([...selectedExercises, exercise])
+            }
+          />
+        ))}
       </View>
     </>
   );
@@ -84,4 +91,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
 });
+
 export default EditWorkoutPage;

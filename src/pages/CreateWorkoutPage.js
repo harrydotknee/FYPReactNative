@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
 import {List, Button, TextInput} from 'react-native-paper';
-import ExerciseList from '../components/ExerciseList';
 
 const API_URL = 'https://dca6-148-252-129-117.eu.ngrok.io';
 
@@ -64,7 +63,7 @@ const CreateWorkoutPage = ({route, navigation}) => {
           console.log(jsonRes);
           let exerciseList = [];
           for (let i = 0; i < jsonRes.length; i++) {
-            exerciseList.push(jsonRes[i]);
+            exerciseList.push(jsonRes[i].name);
           }
           setExercises(exerciseList);
         }
@@ -86,7 +85,16 @@ const CreateWorkoutPage = ({route, navigation}) => {
           value={workoutName}
           onChangeText={workoutName => setWorkoutName(workoutName)}
         />
-        <ExerciseList exercises={exercises} />
+        {exercises.map((exercise, index) => (
+          <List.Item
+            key={index}
+            title={exercise}
+            left={props => <List.Icon {...props} />}
+            onPress={() =>
+              setSelectedExercises([...selectedExercises, exercise])
+            }
+          />
+        ))}
         <Button
           mode="contained"
           onPress={() => {
