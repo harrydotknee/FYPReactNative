@@ -1,0 +1,3 @@
+export const ADD_WORKOUT = 'ADD_WORKOUT';
+export const ADD_EXERCISE = 'ADD_EXERCISE';
+export const WORKOUTS_LOADED = 'WORKOUTS_LOADED';

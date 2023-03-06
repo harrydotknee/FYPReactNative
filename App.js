@@ -20,9 +20,10 @@ import WorkoutsPage from './src/pages/WorkoutsPage';
 import EditWorkoutPage from './src/pages/EditWorkoutPage';
 import CreateWorkoutPage from './src/pages/CreateWorkoutPage';
 import ShowWorkoutPage from './src/pages/ShowWorkoutPage';
+import store from './src/app/store';
+import {navigationRef} from './src/RootNavigation';
 
 const rootReducer = combineReducers({...reducers});
-const store = createStore(rootReducer, applyMiddleware(thunk));
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -30,7 +31,7 @@ const App = () => {
     <>
       <StoreProvider store={store}>
         <PaperProvider>
-          <NavigationContainer>
+          <NavigationContainer ref={navigationRef}>
             <Stack.Navigator>
               <Stack.Screen name="Login" component={LoginForm} />
               <Stack.Screen name="Workouts" component={WorkoutsPage} />

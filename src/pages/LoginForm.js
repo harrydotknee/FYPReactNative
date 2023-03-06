@@ -48,7 +48,10 @@ const LoginForm = ({navigation}) => {
             'client': client,
             'uid': uid,
           };
-          await SecureStore.setItemAsync('credentials', JSON.stringify(credentials));
+          await SecureStore.setItemAsync(
+            'credentials',
+            JSON.stringify(credentials),
+          );
           const theToken = await SecureStore.getItemAsync('credentials');
           console.log('theToken: ' + theToken);
           navigation.replace('Workouts', {
