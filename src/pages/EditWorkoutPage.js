@@ -1,17 +1,22 @@
 import React, {useState, useEffect} from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {TextInput, Button, List} from 'react-native-paper';
+import {connect} from 'react-redux';
 import SelectedExerciseList from '../components/SelectedExerciseList';
 import ExerciseList from '../components/ExerciseList';
 import * as SecureStore from 'expo-secure-store';
+import {
+  addSelectedExercise,
+  loadSelectedExercises,
+  editWorkoutName,
+  fetchWorkouts
+} from '../app/actions';
 
 const API_URL = 'https://dca6-148-252-129-117.eu.ngrok.io';
 
-const EditWorkoutPage = ({route, navigation}) => {
+const EditWorkoutPage = props => {
   const [allExercises, setAllExercises] = useState([]);
-  const [exercises, setExercises] = useState([]);
-  const [workoutName, setWorkoutName] = useState(route.params.workout.name);
-  const [selectedExercises, setSelectedExercises] = useState([]);
+  const [workoutName, setWorkoutName] = useState('');
 
   const getExercises = async () => {
     const getCredentials = await SecureStore.getItemAsync('credentials');
@@ -44,30 +49,71 @@ const EditWorkoutPage = ({route, navigation}) => {
     getExercises();
   }, []);
 
+  const onSave = async () => {
+    const getCredentials = await SecureStore.getItemAsync('credentials');
+    const credentialsObject = JSON.parse(getCredentials);
+    const credentials = {
+      'access-token': credentialsObject['access-token'],
+      'client': credentialsObject['client'],
+      'uid': credentialsObject['uid'],
+    };
+    fetch(
+      `${API_URL}/workouts/${props.selectedWorkout.id}?` +
+        new URLSearchParams(credentials),
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: props.selectedWorkout.id,
+          name: props.selectedWorkout.name,
+          exercises: props.selectedWorkout.exercises,
+        }),
+      },
+    ).then(async res => {
+      try {
+        const jsonRes = await res.json();
+        console.log(res.status);
+        if (res.status === 200) {
+          console.log(jsonRes);
+          props.fetchWorkouts();
+          props.navigation.navigate('Workouts');
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    });
+  };
+
+  const onChangeTitle = text => {
+    props.editWorkoutName(text);
+  };
+
   return (
     <>
       <View style={styles.titleContainer}>
         <TextInput
-          value={workoutName}
-          onChangeText={workoutName => setWorkoutName(workoutName)}
+          defaultValue={props.selectedWorkout.name}
+          onChangeText={text => onChangeTitle(text)}
           style={styles.title}
         />
-        <Button mode="contained" style={styles.button}>Save</Button>
+        <Button mode="contained" style={styles.button} onPress={onSave}>Save</Button>
       </View>
       <View style={styles.container}>
-        <SelectedExerciseList exercises={route.params.workout.exercises} />
+        <SelectedExerciseList />
       </View>
       <View style={styles.exerciseList}>
-        {allExercises.map((exercise, index) => (
-          <List.Item
-            key={index}
-            title={exercise.name}
-            left={props => <List.Icon {...props} />}
-            onPress={() =>
-              setSelectedExercises([...selectedExercises, exercise])
-            }
-          />
-        ))}
+        <ScrollView>
+          {allExercises.map((exercise, index) => (
+            <List.Item
+              key={index}
+              title={exercise.name}
+              left={iconProps => <List.Icon {...iconProps} />}
+              onPress={() => props.addSelectedExercise(exercise)}
+            />
+          ))}
+        </ScrollView>
       </View>
     </>
   );
@@ -93,4 +139,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EditWorkoutPage;
+const mapStateToProps = state => {
+  return {
+    selectedWorkout: state.selectedWorkout,
+  };
+};
+
+export default connect(mapStateToProps, {editWorkoutName, addSelectedExercise, fetchWorkouts})(EditWorkoutPage);

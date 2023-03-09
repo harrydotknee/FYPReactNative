@@ -39,31 +39,20 @@ const CreateWorkoutPage = ({route, navigation}) => {
     }).then(async res => {
       try {
         const jsonRes = await res.json();
+        console.log(credentials);
         console.log(res.status);
         if (res.status === 200) {
           console.log(jsonRes);
         }
       } catch (err) {
+        console.log("err");
         console.log(err);
       }
     });
   };
 
   const getExercises = async () => {
-    // const {accessToken, client, uid} = route.params;
-    // const credentials = {
-    //   'access-token': accessToken,
-    //   'client': client,
-    //   'uid': uid,
-    // };
-    const getCredentials = await SecureStore.getItemAsync('credentials');
-    const credentialsObject = JSON.parse(getCredentials);
-    const credentials = {
-      'access-token': credentialsObject['access-token'],
-      'client': credentialsObject['client'],
-      'uid': credentialsObject['uid'],
-    };
-    fetch(`${API_URL}/exercises?` + new URLSearchParams(credentials), {
+    fetch(`${API_URL}/exercises?`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -103,9 +92,10 @@ const CreateWorkoutPage = ({route, navigation}) => {
             key={index}
             title={exercise}
             left={props => <List.Icon {...props} />}
-            onPress={() =>
-              setSelectedExercises([...selectedExercises, exercise])
-            }
+            onPress={() => {
+              setSelectedExercises([...selectedExercises, exercise]);
+              console.log(selectedExercises);
+            }}
           />
         ))}
         <Button

@@ -1,35 +1,45 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {List, IconButton, useTheme} from 'react-native-paper';
 import {ScrollView, StyleSheet, View, TouchableOpacity} from 'react-native';
+import {connect} from 'react-redux';
+import * as RootNavigation from '../RootNavigation';
+import {removeSelectedExercise} from '../app/actions/index';
 
-const SelectedExerciseItem = ({exercise, index, onPress}) => {
-  const theme = useTheme();
-  return (
-    <>
-      <List.Item
-        key={index}
-        title={exercise.name}
-        style={{
-          ...styles.listItemContainer,
-          ...{backgroundColor: theme.colors.primaryContainer},
-        }}
-        right={() => (
-          <TouchableOpacity style={styles.button} onPress={onPress}>
-            <IconButton icon="close" size={20} style={styles.button} />
-          </TouchableOpacity>
-        )}
-      />
-    </>
-  );
-};
-
-const SelectedExerciseList = ({exercises}) => {
+const SelectedExerciseList = props => {
+  const SelectedExerciseItem = ({exercise, index}) => {
+    const theme = useTheme();
+    return (
+      <>
+        <List.Item
+          key={index}
+          title={exercise.name}
+          style={{
+            ...styles.listItemContainer,
+            ...{backgroundColor: theme.colors.primaryContainer},
+          }}
+          right={() => (
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => props.removeSelectedExercise(exercise)}>
+              <IconButton icon="close" size={20} style={styles.button} />
+            </TouchableOpacity>
+          )}
+        />
+      </>
+    );
+  };
   return (
     <>
       <View style={styles.topRight}>
         <ScrollView showsVerticalScrollIndicator={true}>
-          {exercises.map((exercise, index) => {
-            return <SelectedExerciseItem exercise={exercise} key={index} />;
+          {props.selectedWorkout.exercises.map((exercise, index) => {
+            return (
+              <SelectedExerciseItem
+                exercise={exercise}
+                key={index}
+                index={index}
+              />
+            );
           })}
         </ScrollView>
       </View>
@@ -42,6 +52,13 @@ const SelectedExerciseList = ({exercises}) => {
 //   newExercises.splice(index, 1);
 //   setSelectedExercises(newExercises);
 // };
+
+const mapStateToProps = state => {
+  return {
+    exercises: state.selectedExercises,
+    selectedWorkout: state.selectedWorkout,
+  };
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -86,4 +103,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SelectedExerciseList;
+export default connect(mapStateToProps, {removeSelectedExercise})(
+  SelectedExerciseList,
+);

@@ -1,4 +1,13 @@
-import {ADD_WORKOUT, ADD_EXERCISE, WORKOUTS_LOADED} from '../constants';
+import {
+  ADD_WORKOUT,
+  ADD_EXERCISE,
+  ADD_SELECTED_EXERCISE,
+  REMOVE_SELECTED_EXERCISE,
+  WORKOUTS_LOADED,
+  EDIT_WORKOUT_LOADED,
+  SELECT_WORKOUT,
+  EDIT_WORKOUT_NAME
+} from '../constants';
 import * as SecureStore from 'expo-secure-store';
 
 const API_URL = 'https://dca6-148-252-129-117.eu.ngrok.io';
@@ -14,6 +23,41 @@ export const addWorkout = workout => {
   return {
     type: ADD_WORKOUT,
     payload: workout,
+  };
+};
+
+export const addSelectedExercise = selectedExercise => {
+  return {
+    type: ADD_SELECTED_EXERCISE,
+    payload: selectedExercise,
+  };
+};
+
+export const removeSelectedExercise = selectedExercise => {
+  return {
+    type: REMOVE_SELECTED_EXERCISE,
+    payload: selectedExercise,
+  };
+};
+
+export const editWorkout = workout => {
+  return {
+    type: EDIT_WORKOUT_LOADED,
+    payload: workout,
+  };
+};
+
+export const selectWorkout = workout => {
+  return {
+    type: SELECT_WORKOUT,
+    payload: workout,
+  };
+};
+
+export const editWorkoutName = name => {
+  return {
+    type: EDIT_WORKOUT_NAME,
+    payload: name,
   };
 };
 

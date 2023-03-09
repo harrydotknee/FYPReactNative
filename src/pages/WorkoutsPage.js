@@ -11,7 +11,7 @@ const WorkoutsPage = ({route, navigation, workouts}) => {
         onPress={() => navigation.navigate('CreateWorkout')}>
         Create Workout
       </Button>
-      <WorkoutsList navigation={navigation} />
+      <WorkoutsList />
     </View>
   );
 };

@@ -1,25 +1,31 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 import {List, Button} from 'react-native-paper';
+import {connect} from 'react-redux';
 import ExerciseList from '../components/ExerciseList';
+import * as RootNavigation from '../RootNavigation';
 
-const ShowWorkoutPage = ({route, navigation}) => {
-  console.log(route.params.workout);
-  const exercises = route.params.workout.exercises;
+const ShowWorkoutPage = props => {
   return (
     <>
       <View>
         <Button
           mode="contained"
           onPress={() => {
-            navigation.navigate('EditWorkout', {workout: route.params.workout, accessToken: route.params.accessToken, client: route.params.client, uid: route.params.uid});
+            RootNavigation.navigate('EditWorkout');
           }}>
           Edit Workout
         </Button>
-        <ExerciseList exercises={exercises} />
+        <ExerciseList exercises={props.selectedWorkout.exercises} />
       </View>
     </>
   );
 };
 
-export default ShowWorkoutPage;
+const mapStateToProps = state => {
+  return {
+    selectedWorkout: state.selectedWorkout,
+  };
+};
+
+export default connect(mapStateToProps)(ShowWorkoutPage);

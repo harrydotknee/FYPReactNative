@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
 import {List} from 'react-native-paper';
 import {connect} from 'react-redux';
-import {fetchWorkouts} from '../app/actions/index';
+import {fetchWorkouts, selectWorkout} from '../app/actions/index';
 import * as RootNavigation from '../RootNavigation';
 
-const ConnectedWorkoutsList = (props, navigation) => {
+const ConnectedWorkoutsList = props => {
   useEffect(() => {
     console.log('useEffect called');
     props.fetchWorkouts();
@@ -18,7 +18,10 @@ const ConnectedWorkoutsList = (props, navigation) => {
           key={index}
           title={workout.name}
           left={iconProps => <List.Icon {...iconProps} icon="play" />}
-          onPress={() => RootNavigation.navigate('ShowWorkout', {workout: workout})}
+          onPress={() => {
+            props.selectWorkout(workout);
+            RootNavigation.navigate('ShowWorkout', {workout: workout});
+          }}
         />
       ))}
     </List.Section>
@@ -28,7 +31,10 @@ const ConnectedWorkoutsList = (props, navigation) => {
 const mapStateToProps = state => {
   return {
     workouts: state.remoteWorkouts,
+    selectedWorkout: state.selectedWorkout,
   };
 };
 
-export default connect(mapStateToProps, {fetchWorkouts})(ConnectedWorkoutsList);
+export default connect(mapStateToProps, {fetchWorkouts, selectWorkout})(
+  ConnectedWorkoutsList,
+);

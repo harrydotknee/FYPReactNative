@@ -1,8 +1,17 @@
-import {ADD_WORKOUT, WORKOUTS_LOADED} from '../constants';
+import {
+  ADD_WORKOUT,
+  WORKOUTS_LOADED,
+  ADD_SELECTED_EXERCISE,
+  REMOVE_SELECTED_EXERCISE,
+  EDIT_WORKOUT_NAME,
+  SELECT_WORKOUT,
+} from '../constants';
 
 const initialState = {
-  workouts: [{name: 'Workout 1'}, {name: 'Workout 2'}],
+  workouts: [],
   remoteWorkouts: [],
+  selectedWorkout: {name: 'bob', exercises: [{name: 'wob'}]},
+  selectedExercises: [],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -14,9 +23,40 @@ const rootReducer = (state = initialState, action) => {
 
   if (action.type === WORKOUTS_LOADED) {
     return Object.assign({}, state, {
-      remoteWorkouts: state.remoteWorkouts.concat(action.payload),
+      remoteWorkouts: action.payload,
     });
   }
+
+  if (action.type === SELECT_WORKOUT) {
+    return Object.assign({}, state, {
+      selectedWorkout: action.payload,
+    });
+  }
+
+  if (action.type === ADD_SELECTED_EXERCISE) {
+    const updatedWorkout = {
+      ...state.selectedWorkout,
+      exercises: state.selectedWorkout.exercises.concat(action.payload),
+    };
+    return {...state, selectedWorkout: updatedWorkout};
+  }
+
+  if (action.type === REMOVE_SELECTED_EXERCISE) {
+    const updatedWorkout = {
+      ...state.selectedWorkout,
+      exercises: state.selectedWorkout.exercises.filter(
+        exercise => exercise.id !== action.payload.id,
+      ),
+    };
+    return {...state, selectedWorkout: updatedWorkout};
+  }
+
+  if (action.type === EDIT_WORKOUT_NAME) {
+    const name = action.payload;
+    const updatedWorkout = {...state.selectedWorkout, name: name};
+    return {...state, selectedWorkout: updatedWorkout};
+  }
+
   return state;
 };
 
