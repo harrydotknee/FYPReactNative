@@ -71,16 +71,32 @@ export function fetchWorkouts() {
       'client': credentialsObject['client'],
       'uid': credentialsObject['uid'],
     };
-    console.log(credentials);
     return fetch(`${API_URL}/workouts?` + new URLSearchParams(credentials), {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
     })
-      .then(res => res.json())
+      .then(res => {
+        if (res.status === 200 && res.headers.has('access-token')) {
+          const newAccessToken = res.headers.get('access-token');
+          if (newAccessToken) {
+            credentialsObject['access-token'] = newAccessToken;
+            return SecureStore.setItemAsync(
+              'credentials',
+              JSON.stringify(credentialsObject),
+            ).then(() => {
+              return res.json();
+            });
+          }
+        }
+        return res.json();
+      })
       .then(json => {
         dispatch({type: WORKOUTS_LOADED, payload: json});
+      })
+      .catch(error => {
+        console.log(error);
       });
   };
 }
