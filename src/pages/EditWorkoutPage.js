@@ -11,6 +11,7 @@ import {
   editWorkoutName,
   fetchWorkouts
 } from '../app/actions';
+import MuscleDiagram from '../components/MuscleDiagram';
 
 const API_URL = 'https://dca6-148-252-129-117.eu.ngrok.io';
 
@@ -33,14 +34,14 @@ const EditWorkoutPage = props => {
       },
     }).then(async res => {
       try {
+        console.log('getexercises');
         const jsonRes = await res.json();
         console.log(res.status);
         if (res.status === 200) {
-          console.log(jsonRes);
           setAllExercises(jsonRes);
         }
       } catch (err) {
-        console.log(err);
+        console.log("getexercises" + err);
       }
     });
   };
@@ -57,8 +58,9 @@ const EditWorkoutPage = props => {
       'client': credentialsObject['client'],
       'uid': credentialsObject['uid'],
     };
+    console.log('onsave');
     fetch(
-      `${API_URL}/workouts/${props.selectedWorkout.id}?` +
+      `${API_URL}/workouts/${JSON.stringify(props.selectedWorkout.id)}?` +
         new URLSearchParams(credentials),
       {
         method: 'POST',
@@ -73,15 +75,20 @@ const EditWorkoutPage = props => {
       },
     ).then(async res => {
       try {
-        const jsonRes = await res.json();
-        console.log(res.status);
+        const newAccessToken = res.headers['access-token'];
         if (res.status === 200) {
-          console.log(jsonRes);
+          if (newAccessToken) {
+            credentialsObject['access-token'] = newAccessToken;
+            await SecureStore.setItemAsync(
+              'credentials',
+              JSON.stringify(credentialsObject),
+            );
+          }
           props.fetchWorkouts();
           props.navigation.navigate('Workouts');
         }
       } catch (err) {
-        console.log(err);
+        console.log("onsave" + err);
       }
     });
   };
@@ -99,6 +106,9 @@ const EditWorkoutPage = props => {
           style={styles.title}
         />
         <Button mode="contained" style={styles.button} onPress={onSave}>Save</Button>
+      </View>
+      <View style={styles.diagramContainer}>
+        <MuscleDiagram />
       </View>
       <View style={styles.container}>
         <SelectedExerciseList />
@@ -123,6 +133,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
+    alignItems: 'flex-end',
+    marginLeft: 200,
+    marginTop: -280,
+  },
+  diagramContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    width: '40%',
+    height: 150,
   },
   titleContainer: {
     flexDirection: 'row',

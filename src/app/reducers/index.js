@@ -8,7 +8,7 @@ import {
 } from '../constants';
 
 const initialState = {
-  workouts: [],
+  workouts: [{name: "FAILED", exercises: [{name: "FAILED"}]}],
   remoteWorkouts: [],
   selectedWorkout: {name: 'bob', exercises: [{name: 'wob'}]},
   selectedExercises: [],
