@@ -10,6 +10,7 @@ import {
   EDIT_SELECTED_WORKOUT_EXERCISES_INDEXES,
   SELECT_EMPTY_WORKOUT,
   SET_CREATING,
+  DELETE_WORKOUT,
 } from '../constants';
 import * as SecureStore from 'expo-secure-store';
 
@@ -27,6 +28,49 @@ export const addWorkout = workout => {
     type: ADD_WORKOUT,
     payload: workout,
   };
+};
+
+export const deleteWorkout = workout => {
+  return async function (dispatch) {
+    const getCredentials = await SecureStore.getItemAsync('credentials');
+    const credentialsObject = JSON.parse(getCredentials);
+    const credentials = {
+      'access-token': credentialsObject['access-token'],
+      'client': credentialsObject['client'],
+      'uid': credentialsObject['uid'],
+    };
+    return fetch(
+      `${API_URL}/workouts/${workout.id}?` + new URLSearchParams(credentials),
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    )
+      .then(res => {
+        if (res.status === 200 && res.headers.has('access-token')) {
+          const newAccessToken = res.headers.get('access-token');
+          if (newAccessToken) {
+            credentialsObject['access-token'] = newAccessToken;
+            return SecureStore.setItemAsync(
+              'credentials',
+              JSON.stringify(credentialsObject),
+            ).then(() => {
+              return res.json();
+            });
+          }
+        }
+        return res.json();
+      })
+      .then(json => {
+        console.log("pog");
+        dispatch({type: DELETE_WORKOUT, payload: json});
+      })
+      .catch(error => {
+        console.log("e", error);
+      });
+  }
 };
 
 export const addSelectedExercise = selectedExercise => {
@@ -121,6 +165,7 @@ export function fetchWorkouts() {
         console.log("pog");
       })
       .catch(error => {
+        console.log("e", error);
         console.log(error);
       });
   };

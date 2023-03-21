@@ -8,6 +8,7 @@ import {
   EDIT_SELECTED_WORKOUT_EXERCISES_INDEXES,
   SELECT_EMPTY_WORKOUT,
   SET_CREATING,
+  DELETE_WORKOUT,
 } from '../constants';
 
 const initialState = {
@@ -21,6 +22,15 @@ const rootReducer = (state = initialState, action) => {
   if (action.type === ADD_WORKOUT) {
     return Object.assign({}, state, {
       workouts: state.workouts.concat(action.payload),
+    });
+  }
+
+  if (action.type === DELETE_WORKOUT) {
+    console.log('DELETE_WORKOUT');
+    return Object.assign({}, state, {
+      remoteWorkouts: state.remoteWorkouts.filter(
+        workout => workout.id !== action.payload.id,
+      ),
     });
   }
 
