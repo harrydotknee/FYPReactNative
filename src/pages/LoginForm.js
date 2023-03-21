@@ -4,7 +4,7 @@ import {Button} from 'react-native-elements';
 import {Hoshi} from 'react-native-textinput-effects';
 import * as SecureStore from 'expo-secure-store';
 
-const API_URL = 'https://dca6-148-252-129-117.eu.ngrok.io';
+const API_URL = 'https://3e3a-85-255-236-173.eu.ngrok.io';
 
 const LoginForm = ({navigation}) => {
   const [email, setEmail] = useState('');
