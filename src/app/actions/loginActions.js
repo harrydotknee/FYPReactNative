@@ -31,7 +31,6 @@ export const loginUser = ({email, password}) => {
         },
       }),
     }).then(response => {
-      console.log(response);
       if (response.status === 401) {
         console.log('AUTHENTICATION ERROR!!');
         dispatch({
@@ -40,7 +39,6 @@ export const loginUser = ({email, password}) => {
       } else {
         console.log('SUCCESS!!');
         response.json().then(data => {
-          console.log(data);
           dispatch({
             type: 'LOGIN_USER_SUCCESS',
             payload: data,

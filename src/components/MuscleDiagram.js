@@ -46,6 +46,12 @@ const MuscleDiagram = props => {
 
   const renderedMuscles = () => {
     let muscles = [];
+    if (props.selectedWorkout.exercises === undefined) {
+      return muscles;
+    }
+    if (props.selectedWorkout.exercises.length === 0) {
+      return muscles;
+    }
     props.selectedWorkout.exercises.forEach(exercise => {
       Object.keys(muscleOutput).forEach(muscle => {
         if (exercise.muscle_table[muscle] > 0) {

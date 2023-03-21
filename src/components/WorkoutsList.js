@@ -1,14 +1,13 @@
 import React, {useEffect} from 'react';
 import {List} from 'react-native-paper';
 import {connect} from 'react-redux';
-import {fetchWorkouts, selectWorkout} from '../app/actions/index';
+import {fetchWorkouts, selectWorkout, setCreating} from '../app/actions/index';
 import * as RootNavigation from '../RootNavigation';
 
 const ConnectedWorkoutsList = props => {
   useEffect(() => {
     console.log('useEffect called');
     props.fetchWorkouts();
-    console.log(props.workouts);
   }, []);
 
   return (
@@ -20,6 +19,7 @@ const ConnectedWorkoutsList = props => {
           left={iconProps => <List.Icon {...iconProps} icon="play" />}
           onPress={() => {
             props.selectWorkout(workout);
+            props.setCreating(false);
             RootNavigation.navigate('ShowWorkout', {workout: workout});
           }}
         />
@@ -32,9 +32,10 @@ const mapStateToProps = state => {
   return {
     workouts: state.remoteWorkouts,
     selectedWorkout: state.selectedWorkout,
+    creating: state.creating,
   };
 };
 
-export default connect(mapStateToProps, {fetchWorkouts, selectWorkout})(
+export default connect(mapStateToProps, {fetchWorkouts, selectWorkout, setCreating})(
   ConnectedWorkoutsList,
 );

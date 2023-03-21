@@ -5,13 +5,16 @@ import {
   REMOVE_SELECTED_EXERCISE,
   EDIT_WORKOUT_NAME,
   SELECT_WORKOUT,
+  EDIT_SELECTED_WORKOUT_EXERCISES_INDEXES,
+  SELECT_EMPTY_WORKOUT,
+  SET_CREATING,
 } from '../constants';
 
 const initialState = {
-  workouts: [{name: "FAILED", exercises: [{name: "FAILED"}]}],
+  workouts: [],
   remoteWorkouts: [],
-  selectedWorkout: {name: 'bob', exercises: [{name: 'wob'}]},
-  selectedExercises: [],
+  selectedWorkout: {name: '', exercises: []},
+  creating: false,
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -51,10 +54,27 @@ const rootReducer = (state = initialState, action) => {
     return {...state, selectedWorkout: updatedWorkout};
   }
 
+  if (action.type === EDIT_SELECTED_WORKOUT_EXERCISES_INDEXES) {
+    const updatedWorkout = {
+      ...state.selectedWorkout,
+      exercises: action.payload,
+    };
+    return {...state, selectedWorkout: updatedWorkout};
+  }
+
+  if (action.type === SELECT_EMPTY_WORKOUT) {
+    return {...state, selectedWorkout: {name: '', exercises: []}};
+  }
+
   if (action.type === EDIT_WORKOUT_NAME) {
     const name = action.payload;
     const updatedWorkout = {...state.selectedWorkout, name: name};
     return {...state, selectedWorkout: updatedWorkout};
+  }
+
+  if (action.type === SET_CREATING) {
+    console.log(action.payload, 'payload');
+    return {...state, creating: action.payload};
   }
 
   return state;

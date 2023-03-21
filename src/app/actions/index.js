@@ -6,11 +6,14 @@ import {
   WORKOUTS_LOADED,
   EDIT_WORKOUT_LOADED,
   SELECT_WORKOUT,
-  EDIT_WORKOUT_NAME
+  EDIT_WORKOUT_NAME,
+  EDIT_SELECTED_WORKOUT_EXERCISES_INDEXES,
+  SELECT_EMPTY_WORKOUT,
+  SET_CREATING,
 } from '../constants';
 import * as SecureStore from 'expo-secure-store';
 
-const API_URL = 'https://dca6-148-252-129-117.eu.ngrok.io';
+const API_URL = 'https://3e3a-85-255-236-173.eu.ngrok.io';
 
 export const addExercise = exercise => {
   return {
@@ -61,6 +64,27 @@ export const editWorkoutName = name => {
   };
 };
 
+export const editSelectedWorkoutExercisesIndexes = workout => {
+  return {
+    type: EDIT_SELECTED_WORKOUT_EXERCISES_INDEXES,
+    payload: workout,
+  };
+};
+
+export const selectEmptyWorkout = () => {
+  return {
+    type: SELECT_EMPTY_WORKOUT,
+  };
+};
+
+export const setCreating = creating => {
+  console.log('setCreating');
+  return {
+    type: SET_CREATING,
+    payload: creating,
+  };
+};
+
 export function fetchWorkouts() {
   console.log('fetchWorkouts');
   return async function (dispatch) {
@@ -94,6 +118,7 @@ export function fetchWorkouts() {
       })
       .then(json => {
         dispatch({type: WORKOUTS_LOADED, payload: json});
+        console.log("pog");
       })
       .catch(error => {
         console.log(error);
