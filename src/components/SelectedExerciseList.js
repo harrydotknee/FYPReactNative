@@ -54,7 +54,7 @@ const SelectedExerciseList = globalProps => {
     state = {
       dragging: false,
       draggingIndex: -1,
-      data: globalProps.selectedWorkout.exercises,
+      data: globalProps.selectedWorkout.exercises || [],
     };
     point = new Animated.ValueXY();
     currentY = 0;
@@ -180,7 +180,6 @@ const SelectedExerciseList = globalProps => {
         }
         if (index >= 0) {
           data[index].index = index;
-          console.log(data[index]);
           editSelectedWorkoutExercisesIndexes(data);
         }
         return (
@@ -231,7 +230,7 @@ const SelectedExerciseList = globalProps => {
             onLayout={e => {
               this.scrollViewTopOffset = e.nativeEvent.layout.y;
               this.scrollViewHeight = e.nativeEvent.layout.height;
-              }}>
+            }}>
             {data.map((exercise, index) => {
               return renderItem({exercise, index});
             })}
@@ -326,6 +325,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps, {removeSelectedExercise})(
-  SelectedExerciseList,
-);
+export default connect(mapStateToProps, {
+  removeSelectedExercise,
+})(SelectedExerciseList);

@@ -164,4 +164,8 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, {editWorkoutName, addSelectedExercise, fetchWorkouts})(EditWorkoutPage);
+export default connect(mapStateToProps, {
+  editWorkoutName,
+  addSelectedExercise,
+  fetchWorkouts,
+})(EditWorkoutPage);

@@ -1,14 +1,13 @@
 import React, {useEffect} from 'react';
 import {List} from 'react-native-paper';
 import {connect} from 'react-redux';
-import {fetchWorkouts, selectWorkout} from '../app/actions/index';
+import {fetchWorkouts, selectWorkout, setCreating} from '../app/actions/index';
 import * as RootNavigation from '../RootNavigation';
 
 const ConnectedWorkoutsList = props => {
   useEffect(() => {
     console.log('useEffect called');
     props.fetchWorkouts();
-    console.log(props.workouts);
   }, []);
 
   return (
