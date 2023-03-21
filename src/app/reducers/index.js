@@ -14,7 +14,7 @@ const initialState = {
   workouts: [],
   remoteWorkouts: [],
   selectedWorkout: {name: '', exercises: []},
-  // creating: false,
+  creating: false,
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -72,9 +72,10 @@ const rootReducer = (state = initialState, action) => {
     return {...state, selectedWorkout: updatedWorkout};
   }
 
-  // if (action.type === SET_CREATING) {
-  //   return {...state, creating: action.payload};
-  // }
+  if (action.type === SET_CREATING) {
+    console.log(action.payload, 'payload');
+    return {...state, creating: action.payload};
+  }
 
   return state;
 };

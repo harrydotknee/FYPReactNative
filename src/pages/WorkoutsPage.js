@@ -13,7 +13,8 @@ const WorkoutsPage = props => {
       <Button
         mode="contained"
         onPress={() => {
-          selectEmptyWorkout();
+          props.selectEmptyWorkout();
+          props.setCreating(true);
           console.log(props.selectedWorkout.name);
           RootNavigation.navigate('EditWorkout');
         }}>
@@ -28,6 +29,7 @@ const mapStateToProps = state => {
   return {
     workouts: state.remoteWorkouts,
     selectedWorkout: state.selectedWorkout,
+    creating: state.creating,
   };
 };
 

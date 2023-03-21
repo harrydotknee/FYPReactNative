@@ -9,6 +9,7 @@ import {
   EDIT_WORKOUT_NAME,
   EDIT_SELECTED_WORKOUT_EXERCISES_INDEXES,
   SELECT_EMPTY_WORKOUT,
+  SET_CREATING,
 } from '../constants';
 import * as SecureStore from 'expo-secure-store';
 
@@ -77,8 +78,9 @@ export const selectEmptyWorkout = () => {
 };
 
 export const setCreating = creating => {
+  console.log('setCreating');
   return {
-    type: 'SET_CREATING',
+    type: SET_CREATING,
     payload: creating,
   };
 };
