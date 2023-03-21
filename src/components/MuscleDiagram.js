@@ -26,22 +26,22 @@ const MuscleDiagram = props => {
 
   const muscleImages = {
     chest: require('../images/chest-1.png'),
-    // forearms: require('../images/forearms-1.png'),
-    // shoulders: require('../images/shoulders-1.png'),
+    forearms: require('../images/forearms-1.png'),
+    shoulders: require('../images/shoulders-1.png'),
     // triceps: require('../images/triceps-1.png'),
     biceps: require('../images/biceps-1.png'),
-    // abs: require('../images/abs-1.png'),
-    // quads: require('../images/quads-1.png'),
+    abs: require('../images/abs-1.png'),
+    quads: require('../images/quads-1.png'),
     // hamstrings: require('../images/hamstrings-1.png'),
     // calves: require('../images/calves-1.png'),
     // glutes: require('../images/glutes-1.png'),
-    // traps: require('../images/traps-1.png'),
+    traps: require('../images/traps-1.png'),
     // lats: require('../images/lats-1.png'),
     // middle_back: require('../images/middle_back-1.png'),
     // lower_back: require('../images/lower_back-1.png'),
     // adductors: require('../images/adductors-1.png'),
     // abductors: require('../images/abductors-1.png'),
-    // neck: require('../images/neck-1.png'),
+    neck: require('../images/front-neck-1.png'),
   };
 
   const renderedMuscles = () => {
