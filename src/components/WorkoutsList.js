@@ -19,6 +19,7 @@ const ConnectedWorkoutsList = props => {
           left={iconProps => <List.Icon {...iconProps} icon="play" />}
           onPress={() => {
             props.selectWorkout(workout);
+            props.setCreating(false);
             RootNavigation.navigate('ShowWorkout', {workout: workout});
           }}
         />
@@ -31,9 +32,10 @@ const mapStateToProps = state => {
   return {
     workouts: state.remoteWorkouts,
     selectedWorkout: state.selectedWorkout,
+    creating: state.creating,
   };
 };
 
-export default connect(mapStateToProps, {fetchWorkouts, selectWorkout})(
+export default connect(mapStateToProps, {fetchWorkouts, selectWorkout, setCreating})(
   ConnectedWorkoutsList,
 );
