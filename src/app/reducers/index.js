@@ -5,6 +5,7 @@ import {
   REMOVE_SELECTED_EXERCISE,
   EDIT_WORKOUT_NAME,
   SELECT_WORKOUT,
+  EDIT_SELECTED_WORKOUT_EXERCISES_INDEXES,
 } from '../constants';
 
 const initialState = {
@@ -47,6 +48,14 @@ const rootReducer = (state = initialState, action) => {
       exercises: state.selectedWorkout.exercises.filter(
         exercise => exercise.id !== action.payload.id,
       ),
+    };
+    return {...state, selectedWorkout: updatedWorkout};
+  }
+
+  if (action.type === EDIT_SELECTED_WORKOUT_EXERCISES_INDEXES) {
+    const updatedWorkout = {
+      ...state.selectedWorkout,
+      exercises: action.payload,
     };
     return {...state, selectedWorkout: updatedWorkout};
   }

@@ -6,7 +6,8 @@ import {
   WORKOUTS_LOADED,
   EDIT_WORKOUT_LOADED,
   SELECT_WORKOUT,
-  EDIT_WORKOUT_NAME
+  EDIT_WORKOUT_NAME,
+  EDIT_SELECTED_WORKOUT_EXERCISES_INDEXES,
 } from '../constants';
 import * as SecureStore from 'expo-secure-store';
 
@@ -61,6 +62,13 @@ export const editWorkoutName = name => {
   };
 };
 
+export const editSelectedWorkoutExercisesIndexes = workout => {
+  return {
+    type: EDIT_SELECTED_WORKOUT_EXERCISES_INDEXES,
+    payload: workout,
+  };
+};
+
 export function fetchWorkouts() {
   console.log('fetchWorkouts');
   return async function (dispatch) {
@@ -94,6 +102,7 @@ export function fetchWorkouts() {
       })
       .then(json => {
         dispatch({type: WORKOUTS_LOADED, payload: json});
+        console.log(JSON.stringify(json));
       })
       .catch(error => {
         console.log(error);

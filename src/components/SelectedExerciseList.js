@@ -12,7 +12,10 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 import * as RootNavigation from '../RootNavigation';
-import {removeSelectedExercise} from '../app/actions/index';
+import {
+  removeSelectedExercise,
+  editSelectedWorkoutExercisesIndexes,
+} from '../app/actions/index';
 
 const useItemHeight = () => {
   const [itemHeight, setItemHeight] = useState(null);
@@ -174,6 +177,11 @@ const SelectedExerciseList = globalProps => {
       const renderItem = ({exercise, index}, noPanResponder = false) => {
         if (dragging) {
           console.log('rendering', exercise.name, index, draggingIndex);
+        }
+        if (index >= 0) {
+          data[index].index = index;
+          console.log(data[index]);
+          editSelectedWorkoutExercisesIndexes(data);
         }
         return (
           <View onLayout={e => (this.rowHeight = e.nativeEvent.layout.height)}>
