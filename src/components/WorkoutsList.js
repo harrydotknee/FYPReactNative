@@ -1,7 +1,13 @@
 import React, {useEffect} from 'react';
+import { Touchable, TouchableOpacity } from 'react-native';
 import {List} from 'react-native-paper';
 import {connect} from 'react-redux';
-import {fetchWorkouts, selectWorkout, setCreating} from '../app/actions/index';
+import {
+  fetchWorkouts,
+  selectWorkout,
+  setCreating,
+  deleteWorkout,
+} from '../app/actions/index';
 import * as RootNavigation from '../RootNavigation';
 
 const ConnectedWorkoutsList = props => {
@@ -16,7 +22,11 @@ const ConnectedWorkoutsList = props => {
         <List.Item
           key={index}
           title={workout.name}
-          left={iconProps => <List.Icon {...iconProps} icon="play" />}
+          right={iconProps => (
+            <TouchableOpacity onPress={() => props.deleteWorkout(workout)}>
+              <List.Icon {...iconProps} icon="delete" />
+            </TouchableOpacity>
+          )}
           onPress={() => {
             props.selectWorkout(workout);
             props.setCreating(false);
@@ -36,6 +46,9 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, {fetchWorkouts, selectWorkout, setCreating})(
-  ConnectedWorkoutsList,
-);
+export default connect(mapStateToProps, {
+  fetchWorkouts,
+  selectWorkout,
+  setCreating,
+  deleteWorkout,
+})(ConnectedWorkoutsList);
