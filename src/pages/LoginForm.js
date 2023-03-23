@@ -1,19 +1,14 @@
 import React, {useState} from 'react';
-import {Text, View, ActivityIndicator} from 'react-native';
+import {View} from 'react-native';
 import {Button} from 'react-native-elements';
-import {Hoshi} from 'react-native-textinput-effects';
 import * as SecureStore from 'expo-secure-store';
+import {TextInput} from 'react-native-paper';
 
 const API_URL = 'https://3e3a-85-255-236-173.eu.ngrok.io';
 
 const LoginForm = ({navigation}) => {
   const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-
-  const [isError, setIsError] = useState(false);
-  const [message, setMessage] = useState('');
-  const [isLogin, setIsLogin] = useState(true);
 
   const onSubmitHandler = () => {
     const user = {
@@ -32,7 +27,6 @@ const LoginForm = ({navigation}) => {
       body: JSON.stringify(user),
     }).then(async res => {
       try {
-        const jsonRes = await res.json();
         const accessToken = res.headers.get('access-token');
         const client = res.headers.get('client');
         const uid = res.headers.get('uid');
@@ -41,7 +35,7 @@ const LoginForm = ({navigation}) => {
         console.log("uid: " + uid);
         console.log("status: " + res.status);
         if (res.status !== 200) {
-          setIsError(true);
+          console.log(res.status);
         } else {
           const credentials = {
             'access-token': accessToken,
@@ -59,7 +53,6 @@ const LoginForm = ({navigation}) => {
             client: client,
             uid: uid,
           });
-          setIsError(false);
         }
       } catch (err) {
         console.log(err);
@@ -69,7 +62,7 @@ const LoginForm = ({navigation}) => {
 
   return (
     <View style={styles.viewStyle}>
-      <Hoshi
+      <TextInput
         label={'Email'}
         // this is used as active border color
         borderColor={'#b76c94'}
@@ -78,7 +71,7 @@ const LoginForm = ({navigation}) => {
         backgroundColor={'#FFF'}
         onChangeText={setEmail}
       />
-      <Hoshi
+      <TextInput
         label={'Password'}
         // this is used as active border color
         borderColor={'#b76c94'}

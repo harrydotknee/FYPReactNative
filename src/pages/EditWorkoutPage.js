@@ -10,6 +10,7 @@ import {
   loadSelectedExercises,
   editWorkoutName,
   fetchWorkouts,
+  saveWorkout,
 } from '../app/actions';
 import MuscleDiagram from '../components/MuscleDiagram';
 
@@ -57,52 +58,8 @@ const EditWorkoutPage = props => {
     getExercises();
   }, []);
 
-  const onSave = async () => {
-    const getCredentials = await SecureStore.getItemAsync('credentials');
-    const credentialsObject = JSON.parse(getCredentials);
-    const credentials = {
-      'access-token': credentialsObject['access-token'],
-      'client': credentialsObject['client'],
-      'uid': credentialsObject['uid'],
-    };
-    console.log(
-      `${API_URL}${postURLEnd(JSON.stringify(props.selectedWorkout.id))}?`,
-    );
-    fetch(
-      `${API_URL}${postURLEnd(JSON.stringify(props.selectedWorkout.id))}?` +
-        new URLSearchParams(credentials),
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          id: props.selectedWorkout.id,
-          name: props.selectedWorkout.name,
-          exercises: props.selectedWorkout.exercises,
-        }),
-      },
-    ).then(async res => {
-      try {
-        const newAccessToken = res.headers['access-token'];
-        if (res.status === 200) {
-          if (newAccessToken) {
-            credentialsObject['access-token'] = newAccessToken;
-            await SecureStore.setItemAsync(
-              'credentials',
-              JSON.stringify(credentialsObject),
-            );
-          }
-          props.fetchWorkouts();
-          props.navigation.navigate('Workouts');
-        }
-      } catch (err) {
-        console.log("onsave" + err);
-      }
-    });
-  };
-
   const onChangeTitle = text => {
+    console.log("change", text);
     props.editWorkoutName(text);
   };
 
@@ -115,7 +72,15 @@ const EditWorkoutPage = props => {
           style={styles.title}
           placeholder='Title'
         />
-        <Button mode="contained" style={styles.button} onPress={onSave}>Save</Button>
+        <Button
+          mode="contained"
+          style={styles.button}
+          onPress={() => {
+            props.saveWorkout(props.selectedWorkout);
+            props.navigation.navigate('Workouts');
+          }}>
+          Save
+        </Button>
       </View>
       <View style={styles.diagramContainer}>
         <MuscleDiagram />
@@ -171,7 +136,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     selectedWorkout: state.selectedWorkout,
+    workouts: state.workouts,
   };
 };
 
-export default connect(mapStateToProps, {editWorkoutName, addSelectedExercise, fetchWorkouts})(EditWorkoutPage);
+export default connect(mapStateToProps, {editWorkoutName, addSelectedExercise, fetchWorkouts, saveWorkout})(EditWorkoutPage);
