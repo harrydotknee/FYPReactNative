@@ -13,12 +13,11 @@ import {
 } from '../app/actions';
 import MuscleDiagram from '../components/MuscleDiagram';
 
-const API_URL = 'https://3e3a-85-255-236-173.eu.ngrok.io';
+const API_URL = 'https://dca6-148-252-129-117.eu.ngrok.io';
 
 const EditWorkoutPage = props => {
   const [allExercises, setAllExercises] = useState([]);
   const [workoutName, setWorkoutName] = useState('');
-  
 
   const getExercises = async () => {
     const getCredentials = await SecureStore.getItemAsync('credentials');
@@ -49,93 +48,49 @@ const EditWorkoutPage = props => {
 
   useEffect(() => {
     getExercises();
-    console.log(props.creating, "creating");
   }, []);
 
   const onSave = async () => {
-    if (props.creating) {
-      const getCredentials = await SecureStore.getItemAsync('credentials');
-      const credentialsObject = JSON.parse(getCredentials);
-      const credentials = {
-        'access-token': credentialsObject['access-token'],
-        'client': credentialsObject['client'],
-        'uid': credentialsObject['uid'],
-      };
-      console.log('onsave');
-      fetch(
-        `${API_URL}/workouts?` +
-          new URLSearchParams(credentials),
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            id: props.selectedWorkout.id,
-            name: props.selectedWorkout.name,
-            exercises: props.selectedWorkout.exercises,
-          }),
+    const getCredentials = await SecureStore.getItemAsync('credentials');
+    const credentialsObject = JSON.parse(getCredentials);
+    const credentials = {
+      'access-token': credentialsObject['access-token'],
+      'client': credentialsObject['client'],
+      'uid': credentialsObject['uid'],
+    };
+    console.log('onsave');
+    fetch(
+      `${API_URL}/workouts/${JSON.stringify(props.selectedWorkout.id)}?` +
+        new URLSearchParams(credentials),
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      ).then(async res => {
-        try {
-          const newAccessToken = res.headers['access-token'];
-          if (res.status === 200) {
-            if (newAccessToken) {
-              credentialsObject['access-token'] = newAccessToken;
-              await SecureStore.setItemAsync(
-                'credentials',
-                JSON.stringify(credentialsObject),
-              );
-            }
-            props.fetchWorkouts();
-            props.navigation.navigate('Workouts');
+        body: JSON.stringify({
+          id: props.selectedWorkout.id,
+          name: props.selectedWorkout.name,
+          exercises: props.selectedWorkout.exercises,
+        }),
+      },
+    ).then(async res => {
+      try {
+        const newAccessToken = res.headers['access-token'];
+        if (res.status === 200) {
+          if (newAccessToken) {
+            credentialsObject['access-token'] = newAccessToken;
+            await SecureStore.setItemAsync(
+              'credentials',
+              JSON.stringify(credentialsObject),
+            );
           }
-        } catch (err) {
-          console.log("onsave" + err);
+          props.fetchWorkouts();
+          props.navigation.navigate('Workouts');
         }
-      });
-    } else {
-      const getCredentials = await SecureStore.getItemAsync('credentials');
-      const credentialsObject = JSON.parse(getCredentials);
-      const credentials = {
-        'access-token': credentialsObject['access-token'],
-        'client': credentialsObject['client'],
-        'uid': credentialsObject['uid'],
-      };
-      console.log('onsave');
-      fetch(
-        `${API_URL}/workouts/${JSON.stringify(props.selectedWorkout.id)}?` +
-          new URLSearchParams(credentials),
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            id: props.selectedWorkout.id,
-            name: props.selectedWorkout.name,
-            exercises: props.selectedWorkout.exercises,
-          }),
-        },
-      ).then(async res => {
-        try {
-          const newAccessToken = res.headers['access-token'];
-          if (res.status === 200) {
-            if (newAccessToken) {
-              credentialsObject['access-token'] = newAccessToken;
-              await SecureStore.setItemAsync(
-                'credentials',
-                JSON.stringify(credentialsObject),
-              );
-            }
-            props.fetchWorkouts();
-            props.navigation.navigate('Workouts');
-          }
-        } catch (err) {
-          console.log("onsave" + err);
-        }
-      });
-    }
+      } catch (err) {
+        console.log("onsave" + err);
+      }
+    });
   };
 
   const onChangeTitle = text => {
@@ -206,12 +161,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     selectedWorkout: state.selectedWorkout,
-    creating: state.creating,
   };
 };
 
-export default connect(mapStateToProps, {
-  editWorkoutName,
-  addSelectedExercise,
-  fetchWorkouts,
-})(EditWorkoutPage);
+export default connect(mapStateToProps, {editWorkoutName, addSelectedExercise, fetchWorkouts})(EditWorkoutPage);
