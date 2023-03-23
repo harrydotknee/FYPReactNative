@@ -1,12 +1,51 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity, Modal, Pressable} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import {connect} from 'react-redux';
 import ExerciseList from '../components/ExerciseList';
 import * as RootNavigation from '../RootNavigation';
+import * as SecureStore from 'expo-secure-store';
+
+const API_URL = 'https://3e3a-85-255-236-173.eu.ngrok.io';
+
+const shareWorkout = async (id, email) => {
+  console.log(email, id);
+  const getCredentials = await SecureStore.getItemAsync('credentials');
+  const credentialsObject = JSON.parse(getCredentials);
+  const credentials = {
+    'access-token': credentialsObject['access-token'],
+    'client': credentialsObject['client'],
+    'uid': credentialsObject['uid'],
+  };
+  console.log(credentials);
+  fetch(`${API_URL}/workouts/${id}/share?` + new URLSearchParams(credentials), {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      email: email,
+    }),
+  }).then(async res => {
+    try {
+      console.log('shareworkout');
+      if (res.status === 200) {
+        console.log('success');
+      }
+    } catch (err) {
+      console.log('shareworkout' + err);
+    }
+  });
+};
 
 const ShowWorkoutPage = props => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [email, setEmail] = useState('');
+
+  const clearEmail = () => {
+    setEmail('');
+  };
+
   return (
     <View>
       <View style={styles.container}>
@@ -47,17 +86,22 @@ const ShowWorkoutPage = props => {
                 style={styles.textInput}
                 placeHolder="email"
                 label="email"
+                value={email}
+                onChangeText={text => setEmail(text)}
               />
               <View style={styles.container}>
                 <Pressable
                   style={styles.button}
-                  onPress={() => setModalVisible(!modalVisible)}>
+                  onPress={() => {
+                    shareWorkout(props.selectedWorkout.id, email);
+                    clearEmail();
+                  }}>
                   <Text style={styles.buttonText}>Share</Text>
                 </Pressable>
                 <Pressable
                   style={styles.button}
                   onPress={() => setModalVisible(!modalVisible)}>
-                  <Text style={styles.buttonText}>Cancel</Text>
+                  <Text style={styles.buttonText}>Close</Text>
                 </Pressable>
               </View>
             </View>

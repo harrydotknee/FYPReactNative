@@ -13,7 +13,14 @@ import {
 } from '../app/actions';
 import MuscleDiagram from '../components/MuscleDiagram';
 
-const API_URL = 'https://dca6-148-252-129-117.eu.ngrok.io';
+const API_URL = 'https://3e3a-85-255-236-173.eu.ngrok.io';
+
+const postURLEnd = id => {
+  if (id) {
+    return `/workouts/${id}`;
+  }
+  return '/workouts';
+}
 
 const EditWorkoutPage = props => {
   const [allExercises, setAllExercises] = useState([]);
@@ -58,9 +65,11 @@ const EditWorkoutPage = props => {
       'client': credentialsObject['client'],
       'uid': credentialsObject['uid'],
     };
-    console.log('onsave');
+    console.log(
+      `${API_URL}${postURLEnd(JSON.stringify(props.selectedWorkout.id))}?`,
+    );
     fetch(
-      `${API_URL}/workouts/${JSON.stringify(props.selectedWorkout.id)}?` +
+      `${API_URL}${postURLEnd(JSON.stringify(props.selectedWorkout.id))}?` +
         new URLSearchParams(credentials),
       {
         method: 'POST',
@@ -104,6 +113,7 @@ const EditWorkoutPage = props => {
           defaultValue={props.selectedWorkout.name}
           onChangeText={text => onChangeTitle(text)}
           style={styles.title}
+          placeholder='Title'
         />
         <Button mode="contained" style={styles.button} onPress={onSave}>Save</Button>
       </View>

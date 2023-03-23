@@ -16,14 +16,14 @@ const LoginForm = ({navigation}) => {
   const [isLogin, setIsLogin] = useState(true);
 
   const onSubmitHandler = () => {
-    // const user = {
-    //   email,
-    //   password,
-    // };
     const user = {
-      'email': 'bob@example.com',
-      'password': 'password',
+      email,
+      password,
     };
+    // const user = {
+    //   'email': 'bob@example.com',
+    //   'password': 'password',
+    // };
     fetch(`${API_URL}/auth/sign_in`, {
       method: 'POST',
       headers: {
