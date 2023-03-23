@@ -17,6 +17,15 @@ const ShowWorkoutPage = props => {
           Edit Workout
         </Button>
         <ExerciseList exercises={props.selectedWorkout.exercises} />
+        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <Button
+            mode="contained"
+            onPress={() => {
+              RootNavigation.navigate('Play');
+            }}>
+            Play Workout
+          </Button>
+        </View>
       </View>
     </>
   );

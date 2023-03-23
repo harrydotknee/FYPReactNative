@@ -20,6 +20,7 @@ import WorkoutsPage from './src/pages/WorkoutsPage';
 import EditWorkoutPage from './src/pages/EditWorkoutPage';
 import CreateWorkoutPage from './src/pages/CreateWorkoutPage';
 import ShowWorkoutPage from './src/pages/ShowWorkoutPage';
+import PlayWorkout from './src/pages/PlayWorkout';
 import store from './src/app/store';
 import {navigationRef} from './src/RootNavigation';
 
@@ -37,11 +38,11 @@ const App = () => {
               <Stack.Screen name="Workouts" component={WorkoutsPage} />
               <Stack.Screen name="EditWorkout" component={EditWorkoutPage} />
               <Stack.Screen name="ShowWorkout" component={ShowWorkoutPage} />
-
               <Stack.Screen
                 name="CreateWorkout"
                 component={CreateWorkoutPage}
               />
+              <Stack.Screen name="Play" component={PlayWorkout} />
             </Stack.Navigator>
           </NavigationContainer>
         </PaperProvider>
