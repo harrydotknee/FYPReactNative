@@ -9,7 +9,7 @@ import {
   addSelectedExercise,
   loadSelectedExercises,
   editWorkoutName,
-  fetchWorkouts
+  fetchWorkouts,
 } from '../app/actions';
 import MuscleDiagram from '../components/MuscleDiagram';
 
