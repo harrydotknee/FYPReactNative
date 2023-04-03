@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import SelectedExerciseList from '../components/SelectedExerciseList';
 import ExerciseList from '../components/ExerciseList';
 import * as SecureStore from 'expo-secure-store';
+import {useNavigation} from '@react-navigation/native';
 import {
   addSelectedExercise,
   loadSelectedExercises,
@@ -28,6 +29,21 @@ const EditWorkoutPage = props => {
     console.log("change", text);
     props.editWorkoutName(text);
   };
+
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    if (props.selectedWorkout.name) {
+
+      navigation.setOptions({
+        title: props.selectedWorkout.name,
+      });
+    } else {
+      navigation.setOptions({
+        title: 'New Workout',
+      });
+    }
+  }, [navigation, props.selectedWorkout.name]);
 
   return (
     <>

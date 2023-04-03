@@ -16,8 +16,8 @@ const ConnectedWorkoutsList = props => {
   console.log('WorkoutsList');
 
   useEffect(() => {
-    props.fetchWorkouts();
     props.fetchExercises();
+    props.fetchWorkouts();
   }, []);
 
   return (
