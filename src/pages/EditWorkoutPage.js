@@ -24,40 +24,6 @@ const postURLEnd = id => {
 }
 
 const EditWorkoutPage = props => {
-  const [allExercises, setAllExercises] = useState([]);
-  const [workoutName, setWorkoutName] = useState('');
-
-  const getExercises = async () => {
-    const getCredentials = await SecureStore.getItemAsync('credentials');
-    const credentialsObject = JSON.parse(getCredentials);
-    const credentials = {
-      'access-token': credentialsObject['access-token'],
-      'client': credentialsObject['client'],
-      'uid': credentialsObject['uid'],
-    };
-    fetch(`${API_URL}/exercises?` + new URLSearchParams(credentials), {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }).then(async res => {
-      try {
-        console.log('getexercises');
-        const jsonRes = await res.json();
-        console.log(res.status);
-        if (res.status === 200) {
-          setAllExercises(jsonRes);
-        }
-      } catch (err) {
-        console.log("getexercises" + err);
-      }
-    });
-  };
-
-  useEffect(() => {
-    getExercises();
-  }, []);
-
   const onChangeTitle = text => {
     console.log("change", text);
     props.editWorkoutName(text);
@@ -90,7 +56,7 @@ const EditWorkoutPage = props => {
       </View>
       <View style={styles.exerciseList}>
         <ScrollView>
-          {allExercises.map((exercise, index) => (
+          {props.exercises.map((exercise, index) => (
             <List.Item
               key={index}
               title={exercise.name}
@@ -137,7 +103,13 @@ const mapStateToProps = state => {
   return {
     selectedWorkout: state.selectedWorkout,
     workouts: state.workouts,
+    exercises: state.exercises,
   };
 };
 
-export default connect(mapStateToProps, {editWorkoutName, addSelectedExercise, fetchWorkouts, saveWorkout})(EditWorkoutPage);
+export default connect(mapStateToProps, {
+  editWorkoutName,
+  addSelectedExercise,
+  fetchWorkouts,
+  saveWorkout,
+})(EditWorkoutPage);

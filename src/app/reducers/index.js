@@ -9,12 +9,14 @@ import {
   SELECT_EMPTY_WORKOUT,
   SET_CREATING,
   DELETE_WORKOUT,
+  EXERCISES_LOADED,
 } from '../constants';
 
 const initialState = {
   workouts: [],
   selectedWorkout: {name: '', exercises: []},
   creating: false,
+  exercises: [],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -85,6 +87,10 @@ const rootReducer = (state = initialState, action) => {
   if (action.type === SET_CREATING) {
     console.log(action.payload, 'payload');
     return {...state, creating: action.payload};
+  }
+
+  if (action.type === EXERCISES_LOADED) {
+    return {...state, exercises: action.payload};
   }
 
   return state;

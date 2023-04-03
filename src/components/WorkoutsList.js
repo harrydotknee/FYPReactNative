@@ -4,6 +4,7 @@ import {List} from 'react-native-paper';
 import {connect} from 'react-redux';
 import {
   fetchWorkouts,
+  fetchExercises,
   selectWorkout,
   setCreating,
   deleteWorkout,
@@ -16,6 +17,7 @@ const ConnectedWorkoutsList = props => {
 
   useEffect(() => {
     props.fetchWorkouts();
+    props.fetchExercises();
   }, []);
 
   return (
@@ -69,11 +71,13 @@ const mapStateToProps = state => {
     workouts: state.workouts,
     selectedWorkout: state.selectedWorkout,
     creating: state.creating,
+    exercises: state.exercises,
   };
 };
 
 export default connect(mapStateToProps, {
   fetchWorkouts,
+  fetchExercises,
   selectWorkout,
   setCreating,
   deleteWorkout,

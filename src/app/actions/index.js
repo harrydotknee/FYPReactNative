@@ -11,7 +11,7 @@ import {
   SELECT_EMPTY_WORKOUT,
   SET_CREATING,
   DELETE_WORKOUT,
-  SAVE_WORKOUT,
+  EXERCISES_LOADED,
 } from '../constants';
 import * as SecureStore from 'expo-secure-store';
 
@@ -207,12 +207,30 @@ export function fetchWorkouts() {
         return res.json();
       })
       .then(json => {
-        console.log("json", json);
         dispatch({type: WORKOUTS_LOADED, payload: json});
-        console.log("pog");
       })
       .catch(error => {
-        console.log("e", error);
+        console.log(error);
+      });
+  };
+}
+
+export function fetchExercises() {
+  console.log('fetchExercises');
+  return async function (dispatch) {
+    return fetch(`${API_URL}/exercises`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(json => {
+        dispatch({type: EXERCISES_LOADED, payload: json});
+      })
+      .catch(error => {
         console.log(error);
       });
   };
