@@ -1,10 +1,11 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity, Modal, Pressable} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import {connect} from 'react-redux';
 import ExerciseList from '../components/ExerciseList';
 import * as RootNavigation from '../RootNavigation';
 import * as SecureStore from 'expo-secure-store';
+import {useNavigation} from '@react-navigation/native';
 
 const API_URL = 'https://3e3a-85-255-236-173.eu.ngrok.io';
 
@@ -45,6 +46,14 @@ const ShowWorkoutPage = props => {
   const clearEmail = () => {
     setEmail('');
   };
+
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: props.selectedWorkout.name,
+    });
+  }, [navigation, props.selectedWorkout.name]);
 
   return (
     <View>
