@@ -72,7 +72,11 @@ const MuscleDiagram = props => {
       />
       {renderedMuscles().map(muscle => {
         return (
-          <Image source={muscleImages[muscle]} style={styles.muscleImage} />
+          <Image
+            source={muscleImages[muscle]}
+            style={styles.muscleImage}
+            key={muscle}
+          />
         );
       })}
     </View>
