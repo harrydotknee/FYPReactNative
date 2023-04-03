@@ -13,7 +13,6 @@ import {
 
 const initialState = {
   workouts: [],
-  remoteWorkouts: [],
   selectedWorkout: {name: '', exercises: []},
   creating: false,
 };
@@ -28,15 +27,16 @@ const rootReducer = (state = initialState, action) => {
   if (action.type === DELETE_WORKOUT) {
     console.log('DELETE_WORKOUT');
     return Object.assign({}, state, {
-      remoteWorkouts: state.remoteWorkouts.filter(
+      workouts: state.workouts.filter(
         workout => workout.id !== action.payload.id,
       ),
     });
   }
 
   if (action.type === WORKOUTS_LOADED) {
+    console.log('WORKOUTS_LOADED');
     return Object.assign({}, state, {
-      remoteWorkouts: action.payload,
+      workouts: action.payload,
     });
   }
 

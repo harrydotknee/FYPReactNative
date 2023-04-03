@@ -1,7 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
 import {Button} from 'react-native-paper';
-import WorkoutsList from '../components/WorkoutsList';
+import ConnectedWorkoutsList from '../components/WorkoutsList';
 import {connect} from 'react-redux';
 import {selectEmptyWorkout, setCreating} from '../app/actions';
 import * as RootNavigation from '../RootNavigation';
@@ -15,19 +15,18 @@ const WorkoutsPage = props => {
         onPress={() => {
           props.selectEmptyWorkout();
           props.setCreating(true);
-          console.log(props.selectedWorkout.name);
           RootNavigation.navigate('EditWorkout');
         }}>
         Create Workout
       </Button>
-      <WorkoutsList />
+      <ConnectedWorkoutsList />
     </View>
   );
 };
 
 const mapStateToProps = state => {
   return {
-    workouts: state.remoteWorkouts,
+    workouts: state.workouts,
     selectedWorkout: state.selectedWorkout,
     creating: state.creating,
   };

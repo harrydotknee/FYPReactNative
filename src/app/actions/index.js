@@ -11,6 +11,7 @@ import {
   SELECT_EMPTY_WORKOUT,
   SET_CREATING,
   DELETE_WORKOUT,
+  SAVE_WORKOUT,
 } from '../constants';
 import * as SecureStore from 'expo-secure-store';
 
@@ -129,6 +130,51 @@ export const setCreating = creating => {
   };
 };
 
+export const saveWorkout = workout => {
+  const postURLEnd = id => {
+    if (id) {
+      console.log('id', id);
+      return `/workouts/${id}`;
+    }
+    return '/workouts';
+  };
+
+  return async function (dispatch) {
+    const getCredentials = await SecureStore.getItemAsync('credentials');
+    const credentialsObject = JSON.parse(getCredentials);
+    const credentials = {
+      'access-token': credentialsObject['access-token'],
+      'client': credentialsObject['client'],
+      'uid': credentialsObject['uid'],
+    };
+    fetch(
+      `${API_URL}${postURLEnd(workout.id)}?` + new URLSearchParams(credentials),
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: workout.id,
+          name: workout.name,
+          exercises: workout.exercises,
+          accepted: workout.accepted,
+        }),
+      },
+    ).then(async res => {
+      try {
+        if (res.status === 200) {
+          const jsonRes = await res.json();
+          console.log("Saved", jsonRes);
+          return dispatch(fetchWorkouts());
+        }
+      } catch (err) {
+        console.log("onsave" + err);
+      }
+    });
+  };
+};
+
 export function fetchWorkouts() {
   console.log('fetchWorkouts');
   return async function (dispatch) {
@@ -161,6 +207,7 @@ export function fetchWorkouts() {
         return res.json();
       })
       .then(json => {
+        console.log("json", json);
         dispatch({type: WORKOUTS_LOADED, payload: json});
         console.log("pog");
       })
