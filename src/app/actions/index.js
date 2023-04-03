@@ -12,6 +12,7 @@ import {
   SET_CREATING,
   DELETE_WORKOUT,
   EXERCISES_LOADED,
+  LOGGED_OUT,
 } from '../constants';
 import * as SecureStore from 'expo-secure-store';
 
@@ -233,5 +234,38 @@ export function fetchExercises() {
       .catch(error => {
         console.log(error);
       });
+  };
+}
+
+export function logOut() {
+  console.log('logOut');
+  return async function (dispatch) {
+    const getCredentials = await SecureStore.getItemAsync('credentials');
+    const credentialsObject = JSON.parse(getCredentials);
+    const credentials = {
+      'access-token': credentialsObject['access-token'],
+      'client': credentialsObject['client'],
+      'uid': credentialsObject['uid'],
+    };
+    return fetch(`${API_URL}/auth/sign_out`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(credentials),
+    }).then(async res => {
+      try {
+        console.log(res.status);
+        if (res.status !== 200) {
+          console.log(res.status);
+        } else {
+          console.log('Logged out');
+          await SecureStore.deleteItemAsync('credentials');
+          dispatch({type: LOGGED_OUT});
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    });
   };
 }

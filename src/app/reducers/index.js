@@ -10,6 +10,7 @@ import {
   SET_CREATING,
   DELETE_WORKOUT,
   EXERCISES_LOADED,
+  LOGGED_OUT,
 } from '../constants';
 
 const initialState = {
@@ -91,6 +92,11 @@ const rootReducer = (state = initialState, action) => {
 
   if (action.type === EXERCISES_LOADED) {
     return {...state, exercises: action.payload};
+  }
+
+  if (action.type === LOGGED_OUT) {
+    console.log('LOGGED_OUT');
+    return initialState;
   }
 
   return state;

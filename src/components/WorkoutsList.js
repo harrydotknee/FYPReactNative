@@ -15,11 +15,6 @@ import * as RootNavigation from '../RootNavigation';
 const ConnectedWorkoutsList = props => {
   console.log('WorkoutsList');
 
-  useEffect(() => {
-    props.fetchExercises();
-    props.fetchWorkouts();
-  }, []);
-
   return (
     <List.Section>
       {props.workouts &&
