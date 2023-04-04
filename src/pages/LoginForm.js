@@ -48,11 +48,7 @@ const LoginForm = ({navigation}) => {
           );
           const theToken = await SecureStore.getItemAsync('credentials');
           console.log('theToken: ' + theToken);
-          navigation.replace('Workouts', {
-            accessToken: accessToken,
-            client: client,
-            uid: uid,
-          });
+          navigation.replace('App');
         }
       } catch (err) {
         console.log(err);

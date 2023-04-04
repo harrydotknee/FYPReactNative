@@ -183,7 +183,9 @@ const SelectedExerciseList = globalProps => {
           editSelectedWorkoutExercisesIndexes(data);
         }
         return (
-          <View onLayout={e => (this.rowHeight = e.nativeEvent.layout.height)}>
+          <View
+            onLayout={e => (this.rowHeight = e.nativeEvent.layout.height)}
+            key={index}>
             <List.Item
               key={index}
               title={exercise.name}
@@ -239,39 +241,6 @@ const SelectedExerciseList = globalProps => {
       );
     }
   }
-
-  // class SelectedExerciseItem extends React.Component {
-  //   render() {
-  //     return (
-  //       <View>
-  //         <List.Item
-  //           key={this.props.index}
-  //           title={this.props.exercise.name}
-  //           style={{
-  //             ...styles.listItemContainer,
-  //             ...{backgroundColor: '#afabfc'},
-  //           }}
-  //           right={() => (
-  //             <TouchableOpacity
-  //               style={styles.button}
-  //               onPress={() =>
-  //                 globalProps.removeSelectedExercise(this.props.exercise)
-  //               }>
-  //               <IconButton icon="close" size={20} style={styles.button} />
-  //             </TouchableOpacity>
-  //           )}
-  //           left={() => {
-  //             return (
-  //               <View {...this._panResponder.panHandlers}>
-  //                 <IconButton icon="drag" size={20} style={styles.button} />
-  //               </View>
-  //             );
-  //           }}
-  //         />
-  //       </View>
-  //     );
-  //   }
-  // }
   return <ListContainer />;
 };
 
