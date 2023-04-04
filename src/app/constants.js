@@ -13,3 +13,4 @@ export const DELETE_WORKOUT = 'DELETE_WORKOUT';
 export const SAVE_WORKOUT = 'SAVE_WORKOUT';
 export const EXERCISES_LOADED = 'EXERCISES_LOADED';
 export const LOGGED_OUT = 'LOGGED_OUT';
+export const CHECK_ONLINE = 'CHECK_ONLINE';

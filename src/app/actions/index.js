@@ -13,8 +13,10 @@ import {
   DELETE_WORKOUT,
   EXERCISES_LOADED,
   LOGGED_OUT,
+  CHECK_ONLINE,
 } from '../constants';
 import * as SecureStore from 'expo-secure-store';
+import NetInfo from '@react-native-community/netinfo';
 
 const API_URL = 'https://3e3a-85-255-236-173.eu.ngrok.io';
 
@@ -266,6 +268,16 @@ export function logOut() {
       } catch (err) {
         console.log(err);
       }
+    });
+  };
+}
+
+export function checkOnline() {
+  return async function (dispatch) {
+    NetInfo.fetch().then(state => {
+      console.log('Connection type', state.type);
+      console.log('Is connected?', state.isConnected);
+      dispatch({type: CHECK_ONLINE, payload: state.isConnected});
     });
   };
 }

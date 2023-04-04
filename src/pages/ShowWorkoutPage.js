@@ -59,7 +59,8 @@ const ShowWorkoutPage = props => {
     <View>
       <View style={styles.container}>
         <TouchableOpacity
-          style={styles.button}
+          style={props.online ? styles.button : styles.disabledButton}
+          disabled={!props.online}
           mode="contained"
           onPress={() => {
             RootNavigation.navigate('EditWorkout');
@@ -67,7 +68,8 @@ const ShowWorkoutPage = props => {
           <Text style={styles.buttonText}>Edit</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.button}
+          style={props.online ? styles.button : styles.disabledButton}
+          disabled={!props.online}
           mode="contained"
           onPress={() => {
             setModalVisible(!modalVisible);
@@ -146,6 +148,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginHorizontal: 5,
   },
+  disabledButton: {
+    backgroundColor: 'grey',
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginHorizontal: 5,
+  },
   playButton: {
     backgroundColor: 'green',
     borderRadius: 10,
@@ -197,6 +206,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     selectedWorkout: state.selectedWorkout,
+    online: state.online,
   };
 };
 
