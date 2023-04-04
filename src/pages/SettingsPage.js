@@ -13,7 +13,7 @@ const SettingsPage = props => {
         style={styles.button}
         onPress={() => {
           props.logOut();
-          navigation.replace('Login');
+          navigation.replace('Auth');
         }}>
         <Text style={styles.buttonText}>Log out</Text>
       </TouchableOpacity>

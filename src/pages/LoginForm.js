@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
 import {Button} from 'react-native-elements';
 import * as SecureStore from 'expo-secure-store';
 import {TextInput} from 'react-native-paper';
@@ -15,10 +15,6 @@ const LoginForm = ({navigation}) => {
       email,
       password,
     };
-    // const user = {
-    //   'email': 'bob@example.com',
-    //   'password': 'password',
-    // };
     fetch(`${API_URL}/auth/sign_in`, {
       method: 'POST',
       headers: {
@@ -60,37 +56,29 @@ const LoginForm = ({navigation}) => {
     <View style={styles.viewStyle}>
       <TextInput
         label={'Email'}
-        // this is used as active border color
         borderColor={'#b76c94'}
-        // this is used to set backgroundColor of label mask.
-        // please pass the backgroundColor of your TextInput container.
         backgroundColor={'#FFF'}
         onChangeText={setEmail}
       />
       <TextInput
         label={'Password'}
-        // this is used as active border color
         borderColor={'#b76c94'}
-        // this is used to set backgroundColor of label mask.
-        // please pass the backgroundColor of your TextInput container.
         backgroundColor={'#FFF'}
         onChangeText={setPassword}
         secureTextEntry
       />
-      <Button
-        styleDisabled={{color: 'red'}}
-        onPress={onSubmitHandler}
-        title="Login"
-      />
+      <Button onPress={onSubmitHandler} title="Login" />
+      <Text style={styles.text}>Don't Have an Account?</Text>
+      <Button onPress={() => navigation.navigate('SignUp')} title="Sign Up" />
     </View>
   );
 };
 
-const styles = {
+const styles = StyleSheet.create({
   viewStyle: {
     marginTop: 50,
     padding: 10,
   },
-};
+});
 
 export default LoginForm;
