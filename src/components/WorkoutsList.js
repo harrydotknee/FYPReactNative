@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {TouchableOpacity} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {TouchableOpacity, Modal, View, StyleSheet, Pressable, Text} from 'react-native';
 import {List} from 'react-native-paper';
 import {connect} from 'react-redux';
 import {
@@ -13,6 +13,8 @@ import {
 import * as RootNavigation from '../RootNavigation';
 
 const ConnectedWorkoutsList = props => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [workoutToDelete, setWorkoutToDelete] = useState(null);
   console.log('WorkoutsList');
 
   return (
@@ -26,7 +28,10 @@ const ConnectedWorkoutsList = props => {
               <>
                 {workout.accepted ? (
                   <TouchableOpacity
-                    onPress={() => props.deleteWorkout(workout)}>
+                    onPress={() => {
+                      setModalVisible(!modalVisible);
+                      setWorkoutToDelete(workout);
+                    }}>
                     <List.Icon {...iconProps} icon="delete" />
                   </TouchableOpacity>
                 ) : (
@@ -57,9 +62,82 @@ const ConnectedWorkoutsList = props => {
             }}
           />
         ))}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text>Are you sure you want to delete this workout?</Text>
+            <View style={styles.container}>
+              <Pressable
+                style={styles.button}
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                  props.deleteWorkout(workoutToDelete);
+                }}>
+                <Text style={styles.buttonText}>Yes</Text>
+              </Pressable>
+              <Pressable
+                style={styles.button}
+                onPress={() => setModalVisible(!modalVisible)}>
+                <Text style={styles.buttonText}>No</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </List.Section>
   );
 };
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 10,
+  },
+  button: {
+    backgroundColor: 'blue',
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginHorizontal: 5,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 35,
+    width: 300,
+    height: 200,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+});
 
 const mapStateToProps = state => {
   return {
