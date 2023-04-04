@@ -27,12 +27,22 @@ import {navigationRef} from './src/RootNavigation';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {WorkoutsScreenNavigator} from './src/CustomNavigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import * as SecureStore from 'expo-secure-store';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const workoutsSectionName = 'Workouts Section';
 const settingsName = 'Settings';
+
+const checkLoggedIn = async () => {
+  const token = await SecureStore.getItemAsync('credentials');
+  if (token) {
+    return true;
+  } else {
+    return false;
+  }
+};
 
 const AppContainer = () => {
   return (
@@ -70,8 +80,16 @@ const AppContainer = () => {
   );
 };
 
-
 const App = () => {
+  useEffect(() => {
+    checkLoggedIn().then((loggedIn) => {
+      if (loggedIn) {
+        navigationRef.current?.dispatch(StackActions.replace('App'));
+      } else {
+        navigationRef.current?.dispatch(StackActions.replace('Login'));
+      }
+    });
+  }, []);
   return (
     <>
       <StoreProvider store={store}>
