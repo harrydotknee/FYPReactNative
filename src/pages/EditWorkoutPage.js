@@ -14,6 +14,7 @@ import {
   saveWorkout,
 } from '../app/actions';
 import MuscleDiagram from '../components/MuscleDiagram';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const API_URL = 'https://3e3a-85-255-236-173.eu.ngrok.io';
 
@@ -54,15 +55,15 @@ const EditWorkoutPage = props => {
           style={styles.title}
           placeholder='Title'
         />
-        <Button
+        <TouchableOpacity
           mode="contained"
           style={styles.button}
           onPress={() => {
             props.saveWorkout(props.selectedWorkout);
             props.navigation.navigate('Workouts');
           }}>
-          Save
-        </Button>
+          <Text style={styles.buttonText}>Save</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.diagramContainer}>
         <MuscleDiagram />
@@ -112,6 +113,19 @@ const styles = StyleSheet.create({
   title: {
     flex: 1,
     flexDirection: 'row',
+  },
+  button: {
+    backgroundColor: 'blue',
+    width: 70,
+    height: 50,
+    borderRadius: 5,
+    paddingVertical: 10,
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 

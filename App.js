@@ -22,7 +22,7 @@ import CreateWorkoutPage from './src/pages/CreateWorkoutPage';
 import ShowWorkoutPage from './src/pages/ShowWorkoutPage';
 import PlayWorkout from './src/pages/PlayWorkout';
 import SettingsPage from './src/pages/SettingsPage';
-import store from './src/app/store';
+import {store, persistor} from './src/app/store';
 import {navigationRef} from './src/RootNavigation';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {WorkoutsScreenNavigator} from './src/CustomNavigation';

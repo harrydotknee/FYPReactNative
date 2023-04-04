@@ -11,6 +11,7 @@ import {
   DELETE_WORKOUT,
   EXERCISES_LOADED,
   LOGGED_OUT,
+  CHECK_ONLINE,
 } from '../constants';
 
 const initialState = {
@@ -18,6 +19,7 @@ const initialState = {
   selectedWorkout: {name: '', exercises: []},
   creating: false,
   exercises: [],
+  online: false,
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -97,6 +99,11 @@ const rootReducer = (state = initialState, action) => {
   if (action.type === LOGGED_OUT) {
     console.log('LOGGED_OUT');
     return initialState;
+  }
+
+  if (action.type === CHECK_ONLINE) {
+    console.log('CHECK_ONLINE');
+    return {...state, online: action.payload};
   }
 
   return state;
