@@ -16,6 +16,7 @@ import {Provider as PaperProvider} from 'react-native-paper';
 import {applyMiddleware, combineReducers, createStore} from 'redux';
 import reducers from './src/app/reducers';
 import LoginForm from './src/pages/LoginForm';
+import SignUpForm from './src/pages/SignUpForm';
 import WorkoutsPage from './src/pages/WorkoutsPage';
 import EditWorkoutPage from './src/pages/EditWorkoutPage';
 import CreateWorkoutPage from './src/pages/CreateWorkoutPage';
@@ -44,6 +45,15 @@ const checkLoggedIn = async () => {
   }
 };
 
+const AuthContainer = () => {
+  return (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Login" component={LoginForm} />
+      <Stack.Screen name="SignUp" component={SignUpForm} />
+    </Stack.Navigator>
+  );
+};
+
 const AppContainer = () => {
   return (
     <Tab.Navigator
@@ -68,14 +78,6 @@ const AppContainer = () => {
         component={WorkoutsScreenNavigator}
       />
       <Tab.Screen name={settingsName} component={SettingsPage} />
-      {/* <Stack.Screen name="Login" component={LoginForm} />
-      <Stack.Screen name="EditWorkout" component={EditWorkoutPage} />
-      <Stack.Screen name="ShowWorkout" component={ShowWorkoutPage} />
-      <Stack.Screen
-        name="CreateWorkout"
-        component={CreateWorkoutPage}
-      />
-      <Stack.Screen name="Play" component={PlayWorkout} /> */}
     </Tab.Navigator>
   );
 };
@@ -96,7 +98,7 @@ const App = () => {
         <PaperProvider>
           <NavigationContainer ref={navigationRef}>
             <Stack.Navigator screenOptions={{headerShown: false}}>
-              <Stack.Screen name="Login" component={LoginForm} />
+              <Stack.Screen name="Auth" component={AuthContainer} />
               <Stack.Screen name="App" component={AppContainer} />
             </Stack.Navigator>
           </NavigationContainer>

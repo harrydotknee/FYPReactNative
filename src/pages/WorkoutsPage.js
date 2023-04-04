@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {Button} from 'react-native-paper';
 import ConnectedWorkoutsList from '../components/WorkoutsList';
@@ -8,11 +8,10 @@ import * as RootNavigation from '../RootNavigation';
 
 const WorkoutsPage = props => {
   useEffect(() => {
+    console.log('WorkoutsPage useEffect');
     props.checkOnline();
-    if (props.online) {
-      props.fetchExercises();
-      props.fetchWorkouts();
-    }
+    props.fetchExercises();
+    props.fetchWorkouts();
   }, []);
 
   console.log('WorkoutsPage');
