@@ -1,6 +1,6 @@
 import React from 'react';
-import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
-import * as SecureStore from 'expo-secure-store';
+import {View, StyleSheet} from 'react-native';
+import {Button, Text, Surface} from 'react-native-paper';
 import {connect} from 'react-redux';
 import {logOut} from '../app/actions';
 import {useNavigation} from '@react-navigation/native';
@@ -8,33 +8,35 @@ import {useNavigation} from '@react-navigation/native';
 const SettingsPage = props => {
   const navigation = useNavigation();
   return (
-    <View>
-      <TouchableOpacity
+    <Surface style={styles.surface}>
+      <Button
         style={styles.button}
+        mode="contained"
         onPress={() => {
           props.logOut();
           navigation.replace('Auth');
         }}>
         <Text style={styles.buttonText}>Log out</Text>
-      </TouchableOpacity>
-    </View>
+      </Button>
+    </Surface>
   );
 };
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: 'blue',
     borderRadius: 5,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    marginTop: 20,
+    marginTop: 200,
     alignSelf: 'center',
   },
   buttonText: {
-    color: '#FFFFFF',
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  surface: {
+    height: '100%',
   },
 });
 

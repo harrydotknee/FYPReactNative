@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {TouchableOpacity, Modal, View, StyleSheet, Pressable, Text} from 'react-native';
-import {List} from 'react-native-paper';
+import {TouchableOpacity, View, StyleSheet} from 'react-native';
+import {List, Modal, Portal, Button, Text, useTheme} from 'react-native-paper';
 import {connect} from 'react-redux';
 import {
   fetchWorkouts,
@@ -15,6 +15,7 @@ import * as RootNavigation from '../RootNavigation';
 const ConnectedWorkoutsList = props => {
   const [modalVisible, setModalVisible] = useState(false);
   const [workoutToDelete, setWorkoutToDelete] = useState(null);
+  const theme = useTheme();
   console.log('WorkoutsList');
 
   return (
@@ -24,10 +25,12 @@ const ConnectedWorkoutsList = props => {
           <List.Item
             key={index}
             title={workout.name}
+            style={styles.listItem}
             right={iconProps => (
               <>
                 {workout.accepted ? (
                   <TouchableOpacity
+                    style={styles.touchableOpacity}
                     onPress={() => {
                       setModalVisible(!modalVisible);
                       setWorkoutToDelete(workout);
@@ -62,34 +65,36 @@ const ConnectedWorkoutsList = props => {
             }}
           />
         ))}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text>Are you sure you want to delete this workout?</Text>
-            <View style={styles.container}>
-              <Pressable
-                style={styles.button}
-                onPress={() => {
-                  setModalVisible(!modalVisible);
-                  props.deleteWorkout(workoutToDelete);
-                }}>
-                <Text style={styles.buttonText}>Yes</Text>
-              </Pressable>
-              <Pressable
-                style={styles.button}
-                onPress={() => setModalVisible(!modalVisible)}>
-                <Text style={styles.buttonText}>No</Text>
-              </Pressable>
+      <Portal>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}>
+          <View style={[styles.centeredView, {backgroundColor: theme.colors.background}]}>
+            <View style={[styles.modalView, {backgroundColor: theme.colors.background}]}>
+              <Text>Are you sure you want to delete this workout?</Text>
+              <View style={styles.container}>
+                <Button
+                  style={styles.button}
+                  onPress={() => {
+                    setModalVisible(!modalVisible);
+                    props.deleteWorkout(workoutToDelete);
+                  }}>
+                  <Text style={styles.buttonText}>Yes</Text>
+                </Button>
+                <Button
+                  style={styles.button}
+                  onPress={() => setModalVisible(!modalVisible)}>
+                  <Text style={styles.buttonText}>No</Text>
+                </Button>
+              </View>
             </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
+      </Portal>
     </List.Section>
   );
 };
@@ -122,20 +127,18 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: 'white',
     borderRadius: 10,
     padding: 35,
     width: 300,
     height: 200,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
     elevation: 5,
+  },
+  listItem: {
+    width: '100%',
+  },
+  touchableOpacity: {
+    width: '15%',
   },
 });
 

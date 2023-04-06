@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {Button} from 'react-native-paper';
+import {Button, Surface} from 'react-native-paper';
 import ConnectedWorkoutsList from '../components/WorkoutsList';
 import {connect} from 'react-redux';
 import {selectEmptyWorkout, setCreating, fetchExercises, fetchWorkouts, checkOnline} from '../app/actions';
@@ -16,26 +16,27 @@ const WorkoutsPage = props => {
 
   console.log('WorkoutsPage');
   return (
-    <View>
-      <TouchableOpacity
-        mode="contained"
-        style={props.online ? styles.button : styles.disabledButton}
-        disabled={!props.online}
-        onPress={() => {
-          props.selectEmptyWorkout();
-          props.setCreating(true);
-          RootNavigation.navigate('EditWorkout');
-        }}>
-        <Text style={styles.buttonText}>Create Workout</Text>
-      </TouchableOpacity>
-      <ConnectedWorkoutsList />
-    </View>
+    <Surface style={styles.surface}>
+      <View>
+        <Button
+          mode="contained"
+          style={props.online ? styles.button : styles.disabledButton}
+          disabled={!props.online}
+          onPress={() => {
+            props.selectEmptyWorkout();
+            props.setCreating(true);
+            RootNavigation.navigate('EditWorkout');
+          }}>
+          Create Workout
+        </Button>
+        <ConnectedWorkoutsList />
+      </View>
+    </Surface>
   );
 };
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: 'blue',
     margin: 10,
     borderRadius: 5,
     height: 40,
@@ -46,13 +47,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'grey',
     borderRadius: 5,
     height: 40,
-    justifyContent: 'center',
   },
   buttonText: {
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  surface: {
+    height: '100%',
   },
 });
 

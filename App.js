@@ -12,7 +12,7 @@ import {NavigationContainer, StackActions} from '@react-navigation/native';
 import {createNativeStackNavigator, createSwitchNavigator} from '@react-navigation/native-stack';
 import thunk from 'redux-thunk';
 import {Provider as StoreProvider} from 'react-redux';
-import {Provider as PaperProvider} from 'react-native-paper';
+import {Provider as PaperProvider, BottomNavigation} from 'react-native-paper';
 import {applyMiddleware, combineReducers, createStore} from 'redux';
 import reducers from './src/app/reducers';
 import LoginForm from './src/pages/LoginForm';
@@ -55,30 +55,23 @@ const AuthContainer = () => {
 };
 
 const AppContainer = () => {
+  const [index, setIndex] = useState(0);
+  const [routes] = useState([
+    {key: workoutsSectionName, title: workoutsSectionName, focusedIcon: 'weight-lifter', unfocusedIcon: 'weight-lifter'},
+    {key: settingsName, title: settingsName, focusedIcon: 'cog', unfocusedIcon: 'cog-outline'},
+  ]);
+
+  const renderScene = BottomNavigation.SceneMap({
+    [workoutsSectionName]: WorkoutsScreenNavigator,
+    [settingsName]: SettingsPage,
+  });
+
   return (
-    <Tab.Navigator
-      initialRouteName={workoutsSectionName}
-      screenOptions={({route}) => ({
-        headerShown: false,
-        tabBarIcon: ({focused, color, size}) => {
-          let iconName;
-          let routeName = route.name;
-
-          if (routeName === workoutsSectionName) {
-            iconName = focused ? 'barbell' : 'barbell-outline';
-          } else if (routeName === settingsName) {
-            iconName = focused ? 'settings' : 'settings-outline';
-          }
-
-          return <Ionicons name={iconName} size={size} color={color} />;
-        },
-      })}>
-      <Tab.Screen
-        name={workoutsSectionName}
-        component={WorkoutsScreenNavigator}
-      />
-      <Tab.Screen name={settingsName} component={SettingsPage} />
-    </Tab.Navigator>
+    <BottomNavigation
+      navigationState={{index, routes}}
+      onIndexChange={setIndex}
+      renderScene={renderScene}
+    />
   );
 };
 

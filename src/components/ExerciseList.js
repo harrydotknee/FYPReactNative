@@ -1,12 +1,20 @@
 import React from 'react';
-import {List} from 'react-native-paper';
+import {View} from 'react-native';
+import {List, Divider} from 'react-native-paper';
 
 const ExerciseList = ({exercises}) => {
   return (
     <>
       <List.Section>
+        <Divider />
         {exercises.map((exercise, index) => {
-          return <List.Item key={index} title={exercise.name} />;
+          const title = `${index + 1}. ${exercise.name}`;
+          return (
+            <View key={index}>
+              <List.Item title={title} />
+              <Divider />
+            </View>
+          );
         })}
       </List.Section>
     </>
