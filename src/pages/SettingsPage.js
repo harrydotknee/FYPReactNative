@@ -16,7 +16,7 @@ const SettingsPage = props => {
           props.logOut();
           navigation.replace('Auth');
         }}>
-        <Text style={styles.buttonText}>Log out</Text>
+        Log out
       </Button>
     </Surface>
   );
@@ -29,11 +29,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginTop: 200,
     alignSelf: 'center',
-  },
-  buttonText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
   },
   surface: {
     height: '100%',
