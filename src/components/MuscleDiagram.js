@@ -1,9 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Image, StyleSheet, Text} from 'react-native';
+import {View, Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {List} from 'react-native-paper';
 import { connect } from 'react-redux';
 
 
 const MuscleDiagram = props => {
+  const [frontMusclesSelected, setFrontMusclesSelected] = useState(true);
+
   let muscleOutput = {
     chest: 0,
     forearms: 0,
@@ -24,24 +27,27 @@ const MuscleDiagram = props => {
     neck: 0,
   };
 
-  const muscleImages = {
+  const frontMuscleImages = {
     chest: require('../images/chest-1.png'),
     forearms: require('../images/forearms-1.png'),
     shoulders: require('../images/shoulders-1.png'),
-    // triceps: require('../images/triceps-1.png'),
     biceps: require('../images/biceps-1.png'),
     abs: require('../images/abs-1.png'),
     quads: require('../images/quads-1.png'),
-    // hamstrings: require('../images/hamstrings-1.png'),
-    // calves: require('../images/calves-1.png'),
-    // glutes: require('../images/glutes-1.png'),
     traps: require('../images/traps-1.png'),
-    // lats: require('../images/lats-1.png'),
-    // middle_back: require('../images/middle_back-1.png'),
-    // lower_back: require('../images/lower_back-1.png'),
-    // adductors: require('../images/adductors-1.png'),
-    // abductors: require('../images/abductors-1.png'),
     neck: require('../images/front-neck-1.png'),
+  };
+
+  const backMuscleImages = {
+    triceps: require('../images/triceps-1.png'),
+    hamstrings: require('../images/hamstrings-1.png'),
+    calves: require('../images/calves-1.png'),
+    glutes: require('../images/glutes-1.png'),
+    lats: require('../images/lats-1.png'),
+    middle_back: require('../images/middle_back-1.png'),
+    lower_back: require('../images/lower_back-1.png'),
+    adductors: require('../images/adductors-1.png'),
+    abductors: require('../images/abductors-1.png'),
   };
 
   const renderedMuscles = () => {
@@ -65,20 +71,42 @@ const MuscleDiagram = props => {
   };
 
   return (
-    <View style={styles.container}>
-      <Image
-        source={require('../images/front_muscles.png')}
-        style={styles.image}
-      />
-      {renderedMuscles().map(muscle => {
-        return (
+    <View>
+      <View style={styles.container}>
+        {frontMusclesSelected ? (
           <Image
-            source={muscleImages[muscle]}
-            style={styles.muscleImage}
-            key={muscle}
+            source={require('../images/front_muscles.png')}
+            style={styles.image}
           />
-        );
-      })}
+        ) : (
+          <Image
+            source={require('../images/back_muscles.png')}
+            style={styles.image}
+          />
+        )}
+        {frontMusclesSelected
+          ? renderedMuscles().map(muscle => {
+              return (
+                <Image
+                  source={frontMuscleImages[muscle]}
+                  style={styles.muscleImage}
+                  key={muscle}
+                />
+              );
+            })
+          : renderedMuscles().map(muscle => {
+              return (
+                <Image
+                  source={backMuscleImages[muscle]}
+                  style={styles.muscleImage}
+                  key={muscle}
+                />
+              );
+            })}
+      </View>
+      <TouchableOpacity style={styles.touchableOpacity} onPress={() => setFrontMusclesSelected(!frontMusclesSelected)}>
+        <List.Icon icon="rotate-360" />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -91,8 +119,8 @@ const mapStateToProps = state => {
 
 const styles = StyleSheet.create({
   container: {
-    width: 100, // example width
-    height: 220, // example height
+    width: 100,
+    height: 220,
     position: 'relative',
     overflow: 'hidden',
     marginLeft: 40,
@@ -107,6 +135,9 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     position: 'absolute',
+  },
+  touchableOpacity: {
+    left: 20,
   },
 });
 
