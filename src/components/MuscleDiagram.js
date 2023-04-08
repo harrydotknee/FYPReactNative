@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View, Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {List} from 'react-native-paper';
+import {IconButton} from 'react-native-paper';
 import { connect } from 'react-redux';
 
 
@@ -104,8 +104,10 @@ const MuscleDiagram = props => {
               );
             })}
       </View>
-      <TouchableOpacity style={styles.touchableOpacity} onPress={() => setFrontMusclesSelected(!frontMusclesSelected)}>
-        <List.Icon icon="rotate-360" />
+      <TouchableOpacity
+        style={styles.touchableOpacity}
+        onPress={() => setFrontMusclesSelected(!frontMusclesSelected)}>
+        <IconButton icon="rotate-360" />
       </TouchableOpacity>
     </View>
   );
@@ -137,7 +139,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   touchableOpacity: {
-    left: 20,
+    left: 64,
   },
 });
 
