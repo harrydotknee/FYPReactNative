@@ -194,6 +194,7 @@ const SelectedExerciseList = globalProps => {
                 ...{backgroundColor: '#afabfc'},
                 opacity: draggingIndex === index ? 0 : 1,
               }}
+              titleStyle={styles.listItemTitle}
               right={() => (
                 <TouchableOpacity
                   style={styles.button}
@@ -274,7 +275,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
     marginRight: 16,
-    width: 160,
+    width: 200,
     paddingRight: 0,
   },
   listItemIcon: {
@@ -291,6 +292,12 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     paddingRight: 0,
     width: 10,
+  },
+  listItemTitle: {
+    adjustFontSizeToFit: true,
+    allowFontScaling: true,
+    textAlign: 'left',
+    width: 100,
   },
 });
 

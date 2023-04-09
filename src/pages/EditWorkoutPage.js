@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import {TextInput, Button, List} from 'react-native-paper';
+import {TextInput, Button, List, Surface} from 'react-native-paper';
 import {connect} from 'react-redux';
 import SelectedExerciseList from '../components/SelectedExerciseList';
 import ExerciseList from '../components/ExerciseList';
@@ -47,23 +47,25 @@ const EditWorkoutPage = props => {
   }, [navigation, props.selectedWorkout.name]);
 
   return (
-    <>
+    <Surface style={styles.surface}>
       <View style={styles.titleContainer}>
         <TextInput
           defaultValue={props.selectedWorkout.name}
           onChangeText={text => onChangeTitle(text)}
           style={styles.title}
           placeholder='Title'
+          mode="outlined"
         />
-        <TouchableOpacity
+        <Button
           mode="contained"
           style={styles.button}
+          labelStyle={styles.buttonText}
           onPress={() => {
             props.saveWorkout(props.selectedWorkout);
             props.navigation.navigate('Workouts');
           }}>
-          <Text style={styles.buttonText}>Save</Text>
-        </TouchableOpacity>
+          Save
+        </Button>
       </View>
       <View style={styles.diagramContainer}>
         <MuscleDiagram />
@@ -83,7 +85,7 @@ const EditWorkoutPage = props => {
           ))}
         </ScrollView>
       </View>
-    </>
+    </Surface>
   );
 };
 
@@ -95,6 +97,9 @@ const styles = StyleSheet.create({
     marginLeft: 200,
     marginTop: -280,
   },
+  surface: {
+    height: '100%',
+  },
   diagramContainer: {
     flex: 1,
     flexDirection: 'row',
@@ -103,7 +108,8 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     flexDirection: 'row',
-    height: 50,
+    height: 55,
+    width: '100%',
   },
   exerciseList: {
     borderTopColor: 'black',
@@ -111,21 +117,19 @@ const styles = StyleSheet.create({
     height: '50%',
   },
   title: {
-    flex: 1,
-    flexDirection: 'row',
+    height: 50,
+    width: '80%',
   },
   button: {
-    backgroundColor: 'blue',
-    width: 70,
+    width: '20%',
     height: 50,
     borderRadius: 5,
-    paddingVertical: 10,
+    paddingVertical: 3,
+    marginTop: 5,
   },
   buttonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: 'bold',
-    textAlign: 'center',
   },
 });
 

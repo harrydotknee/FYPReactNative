@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Text} from 'react-native';
-import {Button} from 'react-native-elements';
+import {View, StyleSheet} from 'react-native';
 import * as SecureStore from 'expo-secure-store';
-import {TextInput} from 'react-native-paper';
+import {TextInput, Button, Text, Surface} from 'react-native-paper';
 
 const API_URL = 'https://3e3a-85-255-236-173.eu.ngrok.io';
 
@@ -53,32 +52,53 @@ const LoginForm = ({navigation}) => {
   };
 
   return (
-    <View style={styles.viewStyle}>
-      <TextInput
-        label={'Email'}
-        borderColor={'#b76c94'}
-        backgroundColor={'#FFF'}
-        onChangeText={setEmail}
-      />
-      <TextInput
-        label={'Password'}
-        borderColor={'#b76c94'}
-        backgroundColor={'#FFF'}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      <Button onPress={onSubmitHandler} title="Login" />
-      <Text style={styles.text}>Don't Have an Account?</Text>
-      <Button onPress={() => navigation.navigate('SignUp')} title="Sign Up" />
-    </View>
+    <Surface style={styles.surface}>
+      <View style={styles.viewStyle}>
+        <TextInput
+          label={'Email'}
+          onChangeText={setEmail}
+          style={styles.textInput}
+          mode="outlined"
+        />
+        <TextInput
+          label={'Password'}
+          onChangeText={setPassword}
+          secureTextEntry
+          style={styles.textInput}
+          mode="outlined"
+        />
+        <Button onPress={onSubmitHandler} style={styles.button} mode="contained-tonal">
+          Login
+        </Button>
+        <Text style={styles.text}>Don't Have an Account?</Text>
+        <Button
+          onPress={() => navigation.navigate('SignUp')}
+          mode="contained-tonal"
+          style={styles.button}>
+          Sign Up
+        </Button>
+      </View>
+    </Surface>
   );
 };
 
 const styles = StyleSheet.create({
   viewStyle: {
-    marginTop: 50,
-    padding: 10,
+    width: '70%',
   },
+  surface: {
+    padding: 8,
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 4,
+  },
+  textInput: {
+    marginBottom: 5,
+  },
+  button: {
+    marginVertical: 5,
+  }
 });
 
 export default LoginForm;

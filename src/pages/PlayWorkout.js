@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import {Surface, Text} from 'react-native-paper';
 import {connect} from 'react-redux';
 import * as RootNavigation from '../RootNavigation';
 
@@ -22,7 +23,7 @@ const PlayWorkoutPage = props => {
   }, [currentExercise, props.selectedWorkout.exercises.length]);
 
   return (
-    <View style={styles.container}>
+    <Surface style={styles.container}>
       <Text style={styles.bigText}>
         {props.selectedWorkout.exercises[currentExercise].name}
       </Text>
@@ -57,7 +58,7 @@ const PlayWorkoutPage = props => {
           </TouchableOpacity>
         )}
       </View>
-    </View>
+    </Surface>
   );
 };
 
@@ -66,7 +67,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    marginBottom: 36,
   },
   leftButton: {
     position: 'absolute',
