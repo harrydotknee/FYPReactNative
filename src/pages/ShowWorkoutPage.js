@@ -7,7 +7,7 @@ import * as RootNavigation from '../RootNavigation';
 import * as SecureStore from 'expo-secure-store';
 import {useNavigation} from '@react-navigation/native';
 
-const API_URL = 'https://3e3a-85-255-236-173.eu.ngrok.io';
+const API_URL = 'https://8815-81-106-97-58.ngrok-free.app';
 
 const shareWorkout = async (id, email) => {
   console.log(email, id);
