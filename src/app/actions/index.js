@@ -18,7 +18,7 @@ import {
 import * as SecureStore from 'expo-secure-store';
 import NetInfo from '@react-native-community/netinfo';
 
-const API_URL = 'https://3e3a-85-255-236-173.eu.ngrok.io';
+const API_URL = 'https://8815-81-106-97-58.ngrok-free.app';
 
 export const addExercise = exercise => {
   return {
