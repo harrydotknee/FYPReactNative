@@ -55,6 +55,7 @@ const EditWorkoutPage = props => {
           style={styles.title}
           placeholder='Title'
           mode="outlined"
+          maxLength={50}
         />
         <Button
           mode="contained"
