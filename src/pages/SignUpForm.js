@@ -1,14 +1,21 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {Button} from 'react-native-elements';
+import {Alert, View, StyleSheet} from 'react-native';
 import * as SecureStore from 'expo-secure-store';
-import {TextInput} from 'react-native-paper';
+import {TextInput, Button, Text, Surface} from 'react-native-paper';
 
 const API_URL = 'https://8815-81-106-97-58.ngrok-free.app';
 
 const SignUpForm = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const failedSignInAlert = () => {
+    Alert.alert(
+      'Sign Up Failed',
+      'Please check your email is valid.',
+      [{text: 'OK'}],
+    );
+  };
 
   const onSubmitHandler = () => {
     const user = {
@@ -36,10 +43,6 @@ const SignUpForm = ({navigation}) => {
             const accessToken = loginRes.headers.get('access-token');
             const client = loginRes.headers.get('client');
             const uid = loginRes.headers.get('uid');
-            console.log("token: " + accessToken);
-            console.log("client: " + client);
-            console.log("uid: " + uid);
-            console.log("status: " + loginRes.status);
             if (loginRes.status !== 200) {
               console.log(loginRes.status);
             } else {
@@ -60,40 +63,62 @@ const SignUpForm = ({navigation}) => {
             console.log(err);
           }
         });
+      } else {
+        failedSignInAlert();
       }
     });
   };
 
   return (
-    <View style={styles.viewStyle}>
-      <TextInput
-        label={'Email'}
-        borderColor={'#b76c94'}
-        backgroundColor={'#FFF'}
-        onChangeText={setEmail}
-      />
-      <TextInput
-        label={'Password'}
-        borderColor={'#b76c94'}
-        backgroundColor={'#FFF'}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      <Button onPress={onSubmitHandler} title="Submit" />
-      <Text style={styles.text}>Already Have an Account?</Text>
-      <Button onPress={() => navigation.navigate('Login')} title="Log In" />
-
-    </View>
+    <Surface style={styles.surface}>
+      <View style={styles.viewStyle}>
+        <TextInput
+          label={'Email'}
+          onChangeText={setEmail}
+          style={styles.textInput}
+          mode="outlined"
+        />
+        <TextInput
+          label={'Password'}
+          onChangeText={setPassword}
+          secureTextEntry
+          style={styles.textInput}
+          mode="outlined"
+        />
+        <Button
+          onPress={onSubmitHandler}
+          style={styles.button}
+          mode="contained-tonal">
+          Sign Up
+        </Button>
+        <Text style={styles.text}>Already Have an Account?</Text>
+        <Button
+          onPress={() => navigation.navigate('Login')}
+          mode="contained"
+          style={styles.button}>
+          Log In
+        </Button>
+      </View>
+    </Surface>
   );
 };
 
 const styles = StyleSheet.create({
   viewStyle: {
-    marginTop: 50,
-    padding: 10,
+    width: '70%',
   },
-  text: {
-    fontSize: 15,
+  surface: {
+    padding: 8,
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 4,
+  },
+  textInput: {
+    marginBottom: 5,
+  },
+  button: {
+    marginVertical: 5,
   },
 });
 
