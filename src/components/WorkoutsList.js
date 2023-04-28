@@ -80,8 +80,8 @@ const ConnectedWorkoutsList = props => {
                 <Button
                   style={styles.button}
                   onPress={() => {
-                    setModalVisible(!modalVisible);
                     props.deleteWorkout(workoutToDelete);
+                    setModalVisible(!modalVisible);
                   }}>
                   <Text style={styles.buttonText}>Yes</Text>
                 </Button>

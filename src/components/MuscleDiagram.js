@@ -306,7 +306,6 @@ const MuscleDiagram = props => {
 
   const renderedMuscles = () => {
     let muscles = [];
-    console.log("2", muscleOutput);
     if (props.selectedWorkout.exercises === undefined) {
       return muscles;
     }
