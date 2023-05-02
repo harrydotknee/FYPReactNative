@@ -71,6 +71,7 @@ const SignUpForm = ({navigation}) => {
 
   return (
     <Surface style={styles.surface}>
+      <Text style={styles.title}>MUSCLE MAP</Text>
       <View style={styles.viewStyle}>
         <TextInput
           label={'Email'}
@@ -119,6 +120,11 @@ const styles = StyleSheet.create({
   },
   button: {
     marginVertical: 5,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 60,
   },
 });
 
