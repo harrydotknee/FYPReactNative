@@ -14,7 +14,7 @@ import * as RootNavigation from '../RootNavigation';
 import * as SecureStore from 'expo-secure-store';
 import {useNavigation} from '@react-navigation/native';
 
-const API_URL = 'https://8815-81-106-97-58.ngrok-free.app';
+const API_URL = 'https://a984-81-106-97-58.ngrok-free.app';
 
 const workoutSharedAlert = () => {
   Alert.alert('Workout Shared', 'Your workout has been shared.', [

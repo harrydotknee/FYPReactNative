@@ -3,7 +3,7 @@ import {Alert, View, StyleSheet} from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import {TextInput, Button, Text, Surface} from 'react-native-paper';
 
-const API_URL = 'https://8815-81-106-97-58.ngrok-free.app';
+const API_URL = 'https://a984-81-106-97-58.ngrok-free.app';
 
 const SignUpForm = ({navigation}) => {
   const [email, setEmail] = useState('');

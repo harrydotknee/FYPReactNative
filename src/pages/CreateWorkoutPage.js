@@ -3,7 +3,7 @@ import {Text, View} from 'react-native';
 import {List, Button, TextInput} from 'react-native-paper';
 import * as SecureStore from 'expo-secure-store';
 
-const API_URL = 'https://8815-81-106-97-58.ngrok-free.app';
+const API_URL = 'https://a984-81-106-97-58.ngrok-free.app';
 
 const CreateWorkoutPage = ({route, navigation}) => {
   const [workoutName, setWorkoutName] = useState('');

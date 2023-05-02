@@ -16,7 +16,7 @@ import {
 import MuscleDiagram from '../components/MuscleDiagram';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const API_URL = 'https://8815-81-106-97-58.ngrok-free.app';
+const API_URL = 'https://a984-81-106-97-58.ngrok-free.app';
 
 const postURLEnd = id => {
   if (id) {
