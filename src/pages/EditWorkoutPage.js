@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
-import {TextInput, Button, List, Surface} from 'react-native-paper';
+import {TextInput, Button, List, Surface, Divider} from 'react-native-paper';
 import {connect} from 'react-redux';
 import SelectedExerciseList from '../components/SelectedExerciseList';
 import {useNavigation} from '@react-navigation/native';
@@ -80,14 +80,18 @@ const EditWorkoutPage = props => {
             }
           }}
         />
+        <Divider />
         <ScrollView>
           {filteredExercises.map((exercise, index) => (
-            <List.Item
-              key={index}
-              title={exercise.name}
-              left={iconProps => <List.Icon {...iconProps} />}
-              onPress={() => props.addSelectedExercise(exercise)}
-            />
+            <>
+              <List.Item
+                key={index}
+                title={exercise.name}
+                left={iconProps => <List.Icon {...iconProps} />}
+                onPress={() => props.addSelectedExercise(exercise)}
+              />
+              <Divider />
+            </>
           ))}
         </ScrollView>
       </View>
@@ -136,6 +140,10 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 15,
     fontWeight: 'bold',
+  },
+  textInput: {
+    height: 40,
+    width: '100%',
   },
 });
 
