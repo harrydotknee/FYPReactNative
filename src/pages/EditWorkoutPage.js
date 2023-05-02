@@ -122,8 +122,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   exerciseList: {
-    borderTopColor: 'black',
-    borderTopWidth: 1,
+
     height: '50%',
   },
   title: {
