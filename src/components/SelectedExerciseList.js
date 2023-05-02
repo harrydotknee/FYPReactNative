@@ -291,7 +291,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
     paddingRight: 0,
-    width: 10,
+    width: 15,
   },
   listItemTitle: {
     adjustFontSizeToFit: true,
