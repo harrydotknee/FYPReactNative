@@ -118,6 +118,7 @@ const EditWorkoutPage = props => {
             visibleChanger={setModalVisible}
             exercise={selectedExercise}
             addExercise={props.addSelectedExercise}
+            index={props.selectedWorkout.exercises.length - 1}
           />
         </Modal>
       </Portal>

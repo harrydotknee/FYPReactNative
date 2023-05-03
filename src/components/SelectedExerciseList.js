@@ -200,7 +200,9 @@ const SelectedExerciseList = globalProps => {
               right={() => (
                 <TouchableOpacity
                   style={styles.button}
-                  onPress={() => globalProps.removeSelectedExercise(exercise)}>
+                  onPress={() => {
+                    globalProps.removeSelectedExercise(exercise);
+                  }}>
                   <IconButton icon="close" size={20} style={styles.button} />
                 </TouchableOpacity>
               )}

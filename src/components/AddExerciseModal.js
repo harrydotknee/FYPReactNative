@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Text, useTheme, TextInput, Button} from 'react-native-paper';
 
-const AddExerciseModal = ({addExercise, visibleChanger, exercise}) => {
+const AddExerciseModal = ({addExercise, visibleChanger, exercise, index}) => {
   const theme = useTheme();
   const [reps, setReps] = useState('');
   const [sets, setSets] = useState('');
@@ -52,6 +52,7 @@ const AddExerciseModal = ({addExercise, visibleChanger, exercise}) => {
               sets: sets,
               weight: weight,
               muscle_table: exercise.muscle_table,
+              index: index,
             };
             addExercise(exerciseToAdd);
           }}>
