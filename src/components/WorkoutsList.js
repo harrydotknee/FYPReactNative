@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {TouchableOpacity, View, StyleSheet} from 'react-native';
+import React, {useState} from 'react';
+import {Alert, TouchableOpacity, View, StyleSheet} from 'react-native';
 import {List, Modal, Portal, Button, Text, useTheme} from 'react-native-paper';
 import {connect} from 'react-redux';
 import {
@@ -11,6 +11,14 @@ import {
   saveWorkout,
 } from '../app/actions/index';
 import * as RootNavigation from '../RootNavigation';
+
+const failedDeleteAlert = () => {
+  Alert.alert(
+    'Delete Failed',
+    'You must be online to delete a workout.',
+    [{text: 'OK'}],
+  );
+};
 
 const ConnectedWorkoutsList = props => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -30,10 +38,18 @@ const ConnectedWorkoutsList = props => {
               <>
                 {workout.accepted ? (
                   <TouchableOpacity
-                    style={styles.touchableOpacity}
+                    style={
+                      props.online
+                        ? styles.touchableOpacity
+                        : styles.disabledIcon
+                    }
                     onPress={() => {
-                      setModalVisible(!modalVisible);
-                      setWorkoutToDelete(workout);
+                      if (props.online) {
+                        setModalVisible(!modalVisible);
+                        setWorkoutToDelete(workout);
+                      } else {
+                        failedDeleteAlert();
+                      }
                     }}>
                     <List.Icon {...iconProps} icon="delete" />
                   </TouchableOpacity>
@@ -73,15 +89,23 @@ const ConnectedWorkoutsList = props => {
           onRequestClose={() => {
             setModalVisible(!modalVisible);
           }}>
-          <View style={[styles.centeredView, {backgroundColor: theme.colors.background}]}>
-            <View style={[styles.modalView, {backgroundColor: theme.colors.background}]}>
+          <View
+            style={[
+              styles.centeredView,
+              {backgroundColor: theme.colors.background},
+            ]}>
+            <View
+              style={[
+                styles.modalView,
+                {backgroundColor: theme.colors.background},
+              ]}>
               <Text>Are you sure you want to delete this workout?</Text>
               <View style={styles.container}>
                 <Button
                   style={styles.button}
                   onPress={() => {
-                    setModalVisible(!modalVisible);
                     props.deleteWorkout(workoutToDelete);
+                    setModalVisible(!modalVisible);
                   }}>
                   <Text style={styles.buttonText}>Yes</Text>
                 </Button>
@@ -148,6 +172,7 @@ const mapStateToProps = state => {
     selectedWorkout: state.selectedWorkout,
     creating: state.creating,
     exercises: state.exercises,
+    online: state.online,
   };
 };
 

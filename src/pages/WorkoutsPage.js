@@ -1,9 +1,15 @@
-import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import React, {useEffect} from 'react';
+import {View, StyleSheet} from 'react-native';
 import {Button, Surface} from 'react-native-paper';
 import ConnectedWorkoutsList from '../components/WorkoutsList';
 import {connect} from 'react-redux';
-import {selectEmptyWorkout, setCreating, fetchExercises, fetchWorkouts, checkOnline} from '../app/actions';
+import {
+  selectEmptyWorkout,
+  setCreating,
+  fetchExercises,
+  fetchWorkouts,
+  checkOnline,
+} from '../app/actions';
 import * as RootNavigation from '../RootNavigation';
 
 const WorkoutsPage = props => {

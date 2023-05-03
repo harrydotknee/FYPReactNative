@@ -30,7 +30,6 @@ const rootReducer = (state = initialState, action) => {
   }
 
   if (action.type === DELETE_WORKOUT) {
-    console.log('DELETE_WORKOUT');
     return Object.assign({}, state, {
       workouts: state.workouts.filter(
         workout => workout.id !== action.payload.id,

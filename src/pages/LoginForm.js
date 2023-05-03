@@ -1,13 +1,21 @@
 import React, {useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Alert} from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import {TextInput, Button, Text, Surface} from 'react-native-paper';
 
-const API_URL = 'https://8815-81-106-97-58.ngrok-free.app';
+const API_URL = 'https://a984-81-106-97-58.ngrok-free.app';
 
 const LoginForm = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const failedLoginAlert = () => {
+    Alert.alert(
+      'Login Failed',
+      'Please check your email and password and try again.',
+      [{text: 'OK'}],
+    );
+  };
 
   const onSubmitHandler = () => {
     const user = {
@@ -31,6 +39,7 @@ const LoginForm = ({navigation}) => {
         console.log("status: " + res.status);
         if (res.status !== 200) {
           console.log(res.status);
+          failedLoginAlert();
         } else {
           const credentials = {
             'access-token': accessToken,
@@ -53,6 +62,7 @@ const LoginForm = ({navigation}) => {
 
   return (
     <Surface style={styles.surface}>
+      <Text style={styles.title}>MUSCLE MAP</Text>
       <View style={styles.viewStyle}>
         <TextInput
           label={'Email'}
@@ -67,13 +77,16 @@ const LoginForm = ({navigation}) => {
           style={styles.textInput}
           mode="outlined"
         />
-        <Button onPress={onSubmitHandler} style={styles.button} mode="contained-tonal">
-          Login
+        <Button
+          onPress={onSubmitHandler}
+          style={styles.button}
+          mode="contained-tonal">
+          Log In
         </Button>
         <Text style={styles.text}>Don't Have an Account?</Text>
         <Button
           onPress={() => navigation.navigate('SignUp')}
-          mode="contained-tonal"
+          mode="contained"
           style={styles.button}>
           Sign Up
         </Button>
@@ -98,7 +111,12 @@ const styles = StyleSheet.create({
   },
   button: {
     marginVertical: 5,
-  }
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 60,
+  },
 });
 
 export default LoginForm;

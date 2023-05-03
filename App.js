@@ -57,8 +57,18 @@ const AuthContainer = () => {
 const AppContainer = () => {
   const [index, setIndex] = useState(0);
   const [routes] = useState([
-    {key: workoutsSectionName, title: workoutsSectionName, focusedIcon: 'weight-lifter', unfocusedIcon: 'weight-lifter'},
-    {key: settingsName, title: settingsName, focusedIcon: 'cog', unfocusedIcon: 'cog-outline'},
+    {
+      key: workoutsSectionName,
+      title: workoutsSectionName,
+      focusedIcon: 'weight-lifter',
+      unfocusedIcon: 'weight-lifter',
+    },
+    {
+      key: settingsName,
+      title: settingsName,
+      focusedIcon: 'cog',
+      unfocusedIcon: 'cog-outline',
+    },
   ]);
 
   const renderScene = BottomNavigation.SceneMap({

@@ -18,7 +18,7 @@ import {
 import * as SecureStore from 'expo-secure-store';
 import NetInfo from '@react-native-community/netinfo';
 
-const API_URL = 'https://8815-81-106-97-58.ngrok-free.app';
+const API_URL = 'https://a984-81-106-97-58.ngrok-free.app';
 
 export const addExercise = exercise => {
   return {
@@ -53,28 +53,12 @@ export const deleteWorkout = workout => {
       },
     )
       .then(res => {
-        if (res.status === 200 && res.headers.has('access-token')) {
-          const newAccessToken = res.headers.get('access-token');
-          if (newAccessToken) {
-            credentialsObject['access-token'] = newAccessToken;
-            return SecureStore.setItemAsync(
-              'credentials',
-              JSON.stringify(credentialsObject),
-            ).then(() => {
-              return res.json();
-            });
-          }
-        }
-        return res.json();
-      })
-      .then(json => {
-        console.log("pog");
-        dispatch({type: DELETE_WORKOUT, payload: json});
+        dispatch({type: DELETE_WORKOUT, payload: workout});
       })
       .catch(error => {
         console.log("e", error);
       });
-  }
+  };
 };
 
 export const addSelectedExercise = selectedExercise => {

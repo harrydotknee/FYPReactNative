@@ -1,13 +1,36 @@
-import React, {useState, useRef, useEffect} from 'react';
-import {View, StyleSheet, TouchableOpacity, Pressable} from 'react-native';
-import {TextInput, Surface, Button, Text, Modal, Portal} from 'react-native-paper';
+import React, {useState, useEffect} from 'react';
+import {Alert, View, StyleSheet} from 'react-native';
+import {
+  TextInput,
+  Surface,
+  Button,
+  Text,
+  Modal,
+  Portal,
+} from 'react-native-paper';
 import {connect} from 'react-redux';
 import ExerciseList from '../components/ExerciseList';
 import * as RootNavigation from '../RootNavigation';
 import * as SecureStore from 'expo-secure-store';
 import {useNavigation} from '@react-navigation/native';
 
-const API_URL = 'https://8815-81-106-97-58.ngrok-free.app';
+const API_URL = 'https://a984-81-106-97-58.ngrok-free.app';
+
+const workoutSharedAlert = () => {
+  Alert.alert('Workout Shared', 'Your workout has been shared.', [
+    {
+      text: 'OK',
+    },
+  ]);
+};
+
+const failedShareAlert = () => {
+  Alert.alert('Failed to Share', 'Please try again.', [
+    {
+      text: 'OK',
+    },
+  ]);
+};
 
 const shareWorkout = async (id, email) => {
   console.log(email, id);
@@ -30,11 +53,15 @@ const shareWorkout = async (id, email) => {
   }).then(async res => {
     try {
       console.log('shareworkout');
+      console.log(res);
       if (res.status === 200) {
-        console.log('success');
+        workoutSharedAlert();
+      } else {
+        failedShareAlert();
       }
     } catch (err) {
       console.log('shareworkout' + err);
+      failedShareAlert();
     }
   });
 };

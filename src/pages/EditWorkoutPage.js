@@ -1,31 +1,20 @@
 import React, {useState, useEffect} from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import {TextInput, Button, List, Surface} from 'react-native-paper';
+import {ScrollView, StyleSheet, View} from 'react-native';
+import {TextInput, Button, List, Surface, Divider} from 'react-native-paper';
 import {connect} from 'react-redux';
 import SelectedExerciseList from '../components/SelectedExerciseList';
-import ExerciseList from '../components/ExerciseList';
-import * as SecureStore from 'expo-secure-store';
 import {useNavigation} from '@react-navigation/native';
 import {
   addSelectedExercise,
-  loadSelectedExercises,
   editWorkoutName,
   fetchWorkouts,
   saveWorkout,
 } from '../app/actions';
 import MuscleDiagram from '../components/MuscleDiagram';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-
-const API_URL = 'https://8815-81-106-97-58.ngrok-free.app';
-
-const postURLEnd = id => {
-  if (id) {
-    return `/workouts/${id}`;
-  }
-  return '/workouts';
-}
 
 const EditWorkoutPage = props => {
+  const [filteredExercises, setFilteredExercises] = useState([]);
+
   const onChangeTitle = text => {
     console.log("change", text);
     props.editWorkoutName(text);
@@ -34,8 +23,8 @@ const EditWorkoutPage = props => {
   const navigation = useNavigation();
 
   useEffect(() => {
+    setFilteredExercises(props.exercises);
     if (props.selectedWorkout.name) {
-
       navigation.setOptions({
         title: props.selectedWorkout.name,
       });
@@ -55,6 +44,7 @@ const EditWorkoutPage = props => {
           style={styles.title}
           placeholder='Title'
           mode="outlined"
+          maxLength={50}
         />
         <Button
           mode="contained"
@@ -74,14 +64,34 @@ const EditWorkoutPage = props => {
         <SelectedExerciseList />
       </View>
       <View style={styles.exerciseList}>
+        <TextInput
+          style={styles.textInput}
+          placeholder="Search for exercises"
+          mode="outlined"
+          onChangeText={text => {
+            if (text === '') {
+              setFilteredExercises(props.exercises);
+            } else {
+              setFilteredExercises(
+                props.exercises.filter(exercise =>
+                  exercise.name.toLowerCase().includes(text.toLowerCase()),
+                ),
+              );
+            }
+          }}
+        />
+        <Divider />
         <ScrollView>
-          {props.exercises.map((exercise, index) => (
-            <List.Item
-              key={index}
-              title={exercise.name}
-              left={iconProps => <List.Icon {...iconProps} />}
-              onPress={() => props.addSelectedExercise(exercise)}
-            />
+          {filteredExercises.map((exercise, index) => (
+            <>
+              <List.Item
+                key={index}
+                title={exercise.name}
+                left={iconProps => <List.Icon {...iconProps} />}
+                onPress={() => props.addSelectedExercise(exercise)}
+              />
+              <Divider />
+            </>
           ))}
         </ScrollView>
       </View>
@@ -112,8 +122,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   exerciseList: {
-    borderTopColor: 'black',
-    borderTopWidth: 1,
+
     height: '50%',
   },
   title: {
@@ -130,6 +139,10 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 15,
     fontWeight: 'bold',
+  },
+  textInput: {
+    height: 40,
+    width: '100%',
   },
 });
 
