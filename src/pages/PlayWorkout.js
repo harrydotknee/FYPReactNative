@@ -27,6 +27,15 @@ const PlayWorkoutPage = props => {
       <Text style={styles.bigText}>
         {props.selectedWorkout.exercises[currentExercise].name}
       </Text>
+      <Text style={styles.detailsText}>
+        Reps: {props.selectedWorkout.exercises[currentExercise].reps}
+      </Text>
+      <Text style={styles.detailsText}>
+        Sets: {props.selectedWorkout.exercises[currentExercise].sets}
+      </Text>
+      <Text style={styles.detailsText}>
+        Weight: {props.selectedWorkout.exercises[currentExercise].weight}kg
+      </Text>
       <View style={styles.container}>
         {!firstExercise && (
           <TouchableOpacity
@@ -106,6 +115,10 @@ const styles = StyleSheet.create({
   bigText: {
     textAlign: 'center',
     fontSize: 60,
+  },
+  detailsText: {
+    textAlign: 'center',
+    fontSize: 40,
   },
 });
 

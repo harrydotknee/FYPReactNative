@@ -182,6 +182,7 @@ const SelectedExerciseList = globalProps => {
           data[index].index = index;
           editSelectedWorkoutExercisesIndexes(data);
         }
+        const details = `${exercise.sets}x${exercise.reps}x${exercise.weight}kg`;
         return (
           <View
             onLayout={e => (this.rowHeight = e.nativeEvent.layout.height)}
@@ -189,6 +190,7 @@ const SelectedExerciseList = globalProps => {
             <List.Item
               key={index}
               title={exercise.name}
+              description={details}
               style={{
                 ...styles.listItemContainer,
                 ...{backgroundColor: '#afabfc'},

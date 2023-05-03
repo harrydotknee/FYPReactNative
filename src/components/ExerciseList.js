@@ -8,10 +8,11 @@ const ExerciseList = ({exercises}) => {
       <List.Section>
         <Divider />
         {exercises.map((exercise, index) => {
-          const title = `${index + 1}. ${exercise.name}`;
+          const title = `${index + 1}. ${exercise.name} `;
+          const details = `${exercise.sets} x ${exercise.reps} x ${exercise.weight}kg`;
           return (
             <View key={index}>
-              <List.Item title={title} />
+              <List.Item title={title} description={details} />
               <Divider />
             </View>
           );
