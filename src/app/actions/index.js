@@ -134,6 +134,7 @@ export const saveWorkout = workout => {
       'client': credentialsObject['client'],
       'uid': credentialsObject['uid'],
     };
+    console.log("exercises", workout.exercises);
     fetch(
       `${API_URL}${postURLEnd(workout.id)}?` + new URLSearchParams(credentials),
       {

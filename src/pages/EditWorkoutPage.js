@@ -1,6 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
-import {TextInput, Button, List, Surface, Divider} from 'react-native-paper';
+import {
+  TextInput,
+  Button,
+  List,
+  Surface,
+  Divider,
+  Portal,
+  Modal,
+} from 'react-native-paper';
 import {connect} from 'react-redux';
 import SelectedExerciseList from '../components/SelectedExerciseList';
 import {useNavigation} from '@react-navigation/native';
@@ -11,9 +19,12 @@ import {
   saveWorkout,
 } from '../app/actions';
 import MuscleDiagram from '../components/MuscleDiagram';
+import AddExerciseModal from '../components/AddExerciseModal';
 
 const EditWorkoutPage = props => {
   const [filteredExercises, setFilteredExercises] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedExercise, setSelectedExercise] = useState(null);
 
   const onChangeTitle = text => {
     console.log("change", text);
@@ -83,18 +94,33 @@ const EditWorkoutPage = props => {
         <Divider />
         <ScrollView>
           {filteredExercises.map((exercise, index) => (
-            <>
+            <View key={index}>
               <List.Item
-                key={index}
                 title={exercise.name}
                 left={iconProps => <List.Icon {...iconProps} />}
-                onPress={() => props.addSelectedExercise(exercise)}
+                onPress={() => {
+                  setSelectedExercise(exercise);
+                  setModalVisible(!modalVisible);
+                }} //props.addSelectedExercise(exercise)}
               />
               <Divider />
-            </>
+            </View>
           ))}
         </ScrollView>
       </View>
+      <Portal>
+        <Modal
+          visible={modalVisible}
+          transparent={true}
+          animationType="slide"
+          onDismiss={() => setModalVisible(!modalVisible)}>
+          <AddExerciseModal
+            visibleChanger={setModalVisible}
+            exercise={selectedExercise}
+            addExercise={props.addSelectedExercise}
+          />
+        </Modal>
+      </Portal>
     </Surface>
   );
 };
@@ -143,6 +169,12 @@ const styles = StyleSheet.create({
   textInput: {
     height: 40,
     width: '100%',
+  },
+  modal: {
+    backgroundColor: 'white',
+    padding: 20,
+    margin: 20,
+    borderRadius: 10,
   },
 });
 
